@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
-import './App.sass';
+import './App.less';
 import Menu from './Menu';
 import * as Pages from './pages';
 import * as routes from './routes';
@@ -48,15 +48,19 @@ const App: React.SFC = () => {
               </Route>
               <Route path={routes.reservations}>
               <Pages.Reservations />
-              </Route>
-            </Switch>
-            </div>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-        </Layout>
+            </Route>
+            <Route path={routes.availability}>
+            <Pages.Availability />
+            </Route>
+            <Route path={routes.reservations}>
+            <Pages.Reservations />
+            </Route>
+          </Switch>
+          </div>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
       </Layout>
-    </Router>
-  );
-};
+    </Layout>
+  </Router>;
 
 export default App;
