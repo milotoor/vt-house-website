@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
-import './App.css';
+import './App.sass';
 import Menu from './Menu';
 import * as routes from './routes';
 
