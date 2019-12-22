@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter, RouteProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Menu } from 'antd';
 import * as routes from './routes';
 
