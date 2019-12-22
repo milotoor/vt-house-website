@@ -29,22 +29,22 @@ const App = () =>
               <Pages.Exterior />
             </Route>
             <Route path={routes.interior}>
-            <Pages.Interior />
+              <Pages.Interior />
             </Route>
             <Route path={routes.accommodations}>
-            <Pages.Accommodations />
+              <Pages.Accommodations />
             </Route>
             <Route path={routes.amenities}>
-            <Pages.Amenities />
+              <Pages.Amenities />
             </Route>
             <Route path={routes.recreation}>
               <Pages.Reservations />
             </Route>
             <Route path={routes.availability}>
-            <Pages.Availability />
+              <Pages.Availability />
             </Route>
             <Route path={routes.reservations}>
-            <Pages.Reservations />
+              <Pages.Reservations />
             </Route>
           </Switch>
           </div>
