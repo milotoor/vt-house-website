@@ -29,25 +29,25 @@ const App: React.SFC = () => {
                 <Pages.Home />
               </Route>
               <Route path={routes.exterior}>
-                Exterior
+                <Pages.Exterior />
               </Route>
               <Route path={routes.interior}>
-                Interior
+              <Pages.Interior />
               </Route>
               <Route path={routes.accommodations}>
-                Accommodations
+              <Pages.Accommodations />
               </Route>
               <Route path={routes.amenities}>
-                Amenities
+              <Pages.Amenities />
               </Route>
               <Route path={routes.recreation}>
-                Recreation
+                <Pages.Reservations />
               </Route>
               <Route path={routes.availability}>
-                Availability
+              <Pages.Availability />
               </Route>
               <Route path={routes.reservations}>
-                Reservations
+              <Pages.Reservations />
               </Route>
             </Switch>
             </div>
