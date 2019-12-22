@@ -1,10 +1,32 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteProps } from 'react-router-dom';
 import { Menu } from 'antd';
 import * as routes from './routes';
 
+type tabKeyMap = { [key: string]: number };
+const tabKeyByRoute: tabKeyMap = {
+  [routes.home]: 1,
+  [routes.exterior]: 2,
+  [routes.interior]: 3,
+  [routes.accommodations]: 4,
+  [routes.amenities]: 5,
+  [routes.recreation]: 6,
+  [routes.availability]: 7,
+  [routes.reservations]: 8
+};
+
+const tabAtPageLoad: number = ((): number => {
+  const pathname = window.location.pathname;
+  if (Object.keys(tabKeyByRoute).includes(pathname)) {
+    return tabKeyByRoute[pathname];
+  }
+
+  // Couldn't match the current path, so assume it's the home page
+  return tabKeyByRoute[routes.home];
+})();
+
 export default withRouter(({ history }) =>
-  <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+  <Menu theme="dark" defaultSelectedKeys={[tabAtPageLoad.toString()]} mode="inline">
     <Menu.Item key="1" onClick={() => history.push(routes.home)}>
       Home
     </Menu.Item>
