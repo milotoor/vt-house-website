@@ -9,44 +9,35 @@ import * as routes from './routes';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const App: React.SFC = () => {
-  const [collapsed, setCollapsed] = React.useState(false);
-
-  return (
-    <Router>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Sider>
-          <Menu />
-        </Sider>
-        <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
-            Do I have anything to say in the header?
-          </Header>
-          <Content style={{ margin: '0 16px' }}>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            <Switch>
-              <Route path={routes.home} exact>
-                <Pages.Home />
-              </Route>
-              <Route path={routes.exterior}>
-                <Pages.Exterior />
-              </Route>
-              <Route path={routes.interior}>
-              <Pages.Interior />
-              </Route>
-              <Route path={routes.accommodations}>
-              <Pages.Accommodations />
-              </Route>
-              <Route path={routes.amenities}>
-              <Pages.Amenities />
-              </Route>
-              <Route path={routes.recreation}>
-                <Pages.Reservations />
-              </Route>
-              <Route path={routes.availability}>
-              <Pages.Availability />
-              </Route>
-              <Route path={routes.reservations}>
+const App = () =>
+  <Router>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Sider>
+        <Menu />
+      </Sider>
+      <Layout>
+        <Header style={{ background: '#fff', padding: 0 }}>
+          Do I have anything to say in the header?
+        </Header>
+        <Content style={{ margin: '0 16px' }}>
+          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+          <Switch>
+            <Route path={routes.home} exact>
+              <Pages.Home />
+            </Route>
+            <Route path={routes.exterior}>
+              <Pages.Exterior />
+            </Route>
+            <Route path={routes.interior}>
+            <Pages.Interior />
+            </Route>
+            <Route path={routes.accommodations}>
+            <Pages.Accommodations />
+            </Route>
+            <Route path={routes.amenities}>
+            <Pages.Amenities />
+            </Route>
+            <Route path={routes.recreation}>
               <Pages.Reservations />
             </Route>
             <Route path={routes.availability}>
