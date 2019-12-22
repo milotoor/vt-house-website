@@ -4,6 +4,7 @@ import { Layout } from 'antd';
 
 import './App.sass';
 import Menu from './Menu';
+import * as Pages from './pages';
 import * as routes from './routes';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -14,7 +15,7 @@ const App: React.SFC = () => {
   return (
     <Router>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
+        <Sider>
           <Menu />
         </Sider>
         <Layout>
@@ -25,7 +26,7 @@ const App: React.SFC = () => {
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
             <Switch>
               <Route path={routes.home} exact>
-                Home
+                <Pages.Home />
               </Route>
               <Route path={routes.exterior}>
                 Exterior
