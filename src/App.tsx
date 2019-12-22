@@ -22,9 +22,6 @@ const App = () =>
         <Content style={{ margin: '0 16px' }}>
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
           <Switch>
-            <Route path={routes.home} exact>
-              <Pages.Home />
-            </Route>
             <Route path={routes.exterior}>
               <Pages.Exterior />
             </Route>
@@ -45,6 +42,9 @@ const App = () =>
             </Route>
             <Route path={routes.reservations}>
               <Pages.Reservations />
+            </Route>
+            <Route path={routes.home}>
+              <Pages.Home />
             </Route>
           </Switch>
           </div>
