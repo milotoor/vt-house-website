@@ -37,9 +37,6 @@ const App = () =>
             <Route path={routes.recreation}>
               <Pages.Recreation />
             </Route>
-            <Route path={routes.availability}>
-              <Pages.Availability />
-            </Route>
             <Route path={routes.reservations}>
               <Pages.Reservations />
             </Route>

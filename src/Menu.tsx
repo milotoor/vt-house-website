@@ -11,8 +11,7 @@ const tabKeyByRoute: tabKeyMap = {
   [routes.accommodations]: 4,
   [routes.amenities]: 5,
   [routes.recreation]: 6,
-  [routes.availability]: 7,
-  [routes.reservations]: 8
+  [routes.reservations]: 7
 };
 
 const tabAtPageLoad: number = ((): number => {
@@ -49,10 +48,6 @@ export default withRouter(({ history }) =>
 
     <Menu.Item key="6" onClick={() => history.push(routes.recreation)}>
       Recreation
-    </Menu.Item>
-
-    <Menu.Item key="7" onClick={() => history.push(routes.availability)}>
-      Availability
     </Menu.Item>
 
     <Menu.Item key="8" onClick={() => history.push(routes.reservations)}>
