@@ -1,8 +1,9 @@
 import React from 'react';
 import { Col, Divider, Row, Typography } from 'antd';
+import { SplitList } from './shared';
 
 
-const { Title } = Typography;
+const { Paragraph, Title } = Typography;
 
 interface AmenitySectionProps {
   name: string
@@ -10,30 +11,12 @@ interface AmenitySectionProps {
 }
 
 const AmenitySection: React.SFC<AmenitySectionProps> = ({ name, amenities }) => {
-  const halfwayIndex = Math.ceil(amenities.length / 2)
-  const firstColumn = amenities.slice(0, halfwayIndex);
-  const secondColumn = amenities.slice(halfwayIndex);
-
   return (
     <div className="amenity-section">
       <Title level={3}>{name}</Title>
-      <Row>
-        <Col span={12}>
-          <ul>
-            {firstColumn.map(amenity =>
-              <li key={amenity}>{amenity}</li>
-            )}
-          </ul>
-        </Col>
-
-        <Col span={12}>
-          <ul>
-            {secondColumn.map(amenity =>
-              <li key={amenity}>{amenity}</li>
-            )}
-          </ul>
-        </Col>
-      </Row>
+      <Paragraph>
+        <SplitList listItems={amenities} />
+      </Paragraph>
     </div>
   );
 };
