@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Menu } from 'antd';
+import { Menu as AntMenu } from 'antd';
 import * as routes from './routes';
 
 type TabKeyMap = { [key: string]: number };
@@ -24,34 +24,36 @@ const tabAtPageLoad: number = ((): number => {
   return tabKeyByRoute[routes.home];
 })();
 
-export default withRouter(({ history }) =>
-  <Menu theme="dark" defaultSelectedKeys={[tabAtPageLoad.toString()]} mode="inline">
-    <Menu.Item key="1" onClick={() => history.push(routes.home)}>
+const Menu = withRouter(({ history }) =>
+  <AntMenu theme="dark" defaultSelectedKeys={[tabAtPageLoad.toString()]} mode="inline">
+    <AntMenu.Item key="1" onClick={() => history.push(routes.home)}>
       Home
-    </Menu.Item>
+    </AntMenu.Item>
   
-    <Menu.Item key="2" onClick={() => history.push(routes.exterior)}>
+    <AntMenu.Item key="2" onClick={() => history.push(routes.exterior)}>
       Exterior
-    </Menu.Item>
+    </AntMenu.Item>
 
-    <Menu.Item key="3" onClick={() => history.push(routes.interior)}>
+    <AntMenu.Item key="3" onClick={() => history.push(routes.interior)}>
       Interior
-    </Menu.Item>
+    </AntMenu.Item>
 
-    <Menu.Item key="4" onClick={() => history.push(routes.accommodations)}>
+    <AntMenu.Item key="4" onClick={() => history.push(routes.accommodations)}>
       Accommodations
-    </Menu.Item>
+    </AntMenu.Item>
 
-    <Menu.Item key="5" onClick={() => history.push(routes.amenities)}>
+    <AntMenu.Item key="5" onClick={() => history.push(routes.amenities)}>
       Amenities
-    </Menu.Item>
+    </AntMenu.Item>
 
-    <Menu.Item key="6" onClick={() => history.push(routes.recreation)}>
+    <AntMenu.Item key="6" onClick={() => history.push(routes.recreation.outings)}>
       Recreation
-    </Menu.Item>
+    </AntMenu.Item>
 
-    <Menu.Item key="7" onClick={() => history.push(routes.reservations)}>
+    <AntMenu.Item key="7" onClick={() => history.push(routes.reservations)}>
       Reservations
-    </Menu.Item>
-  </Menu>
+    </AntMenu.Item>
+  </AntMenu>
 );
+
+export default Menu;
