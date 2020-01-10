@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Divider, Row, Typography } from 'antd';
+import { Divider, Typography } from 'antd';
 import { SplitList } from './shared';
 
 
@@ -10,7 +10,7 @@ interface AmenitySectionProps {
   amenities: string[]
 }
 
-const AmenitySection: React.SFC<AmenitySectionProps> = ({ name, amenities }) => {
+const AmenitySection: React.FC<AmenitySectionProps> = ({ name, amenities }) => {
   return (
     <div className="amenity-section">
       <Title level={3}>{name}</Title>

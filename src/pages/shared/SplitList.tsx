@@ -9,7 +9,7 @@ interface SplitListProps {
 /**
  * Renders a list of items in two columns
  */
-const SplitList: React.SFC<SplitListProps> = ({ listItems }) => {
+const SplitList: React.FC<SplitListProps> = ({ listItems }) => {
   const halfwayIndex = Math.ceil(listItems.length / 2)
   const firstColumn = listItems.slice(0, halfwayIndex);
   const secondColumn = listItems.slice(halfwayIndex);

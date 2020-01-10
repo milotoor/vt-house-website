@@ -11,7 +11,7 @@ interface RoomProps {
   features: string[]
 }
 
-const Room: React.SFC<RoomProps> = ({ name, description, features }) => {
+const Room: React.FC<RoomProps> = ({ name, description, features }) => {
   return (
     <div className="accommodation-room">
       <Title level={4}>{name}</Title>
