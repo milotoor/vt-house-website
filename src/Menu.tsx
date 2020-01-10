@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { Menu } from 'antd';
 import * as routes from './routes';
 
-type tabKeyMap = { [key: string]: number };
-const tabKeyByRoute: tabKeyMap = {
+type TabKeyMap = { [key: string]: number };
+const tabKeyByRoute: TabKeyMap = {
   [routes.home]: 1,
   [routes.exterior]: 2,
   [routes.interior]: 3,
@@ -50,7 +50,7 @@ export default withRouter(({ history }) =>
       Recreation
     </Menu.Item>
 
-    <Menu.Item key="8" onClick={() => history.push(routes.reservations)}>
+    <Menu.Item key="7" onClick={() => history.push(routes.reservations)}>
       Reservations
     </Menu.Item>
   </Menu>
