@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Calendar from 'react-calendar';
+import Calendar, { CalendarTileProperties } from 'react-calendar';
 import { Col, Row, Typography } from 'antd';
 import moment from 'moment';
 import some from 'lodash/some';
@@ -8,26 +8,27 @@ import './Reservations.less';
 
 const { Paragraph, Text, Title } = Typography;
 
+// ============================ Types =========================================
 type Reservation = {
   start: moment.Moment
   end: moment.Moment
 }
 
-let reservations: Reservation[] = [];
-const dayIsReserved = (reservations: Reservation[]) =>
-  (args: { date: Date }) => {
-    const momentDate = moment(args.date);
-    return some(reservations.map(({ start, end }) =>
-      start.isBefore(momentDate) && end.isAfter(momentDate)
-    ));
-  };
-
 type DateSelection = Date[] | null;
 interface DateSelectionProp {
   selectedDates: DateSelection
+  reservations: Reservation[]
 }
 
-const enumerateDateRange = (startDate: Date, endDate: Date): Date[] => {
+// ============================ Helpers =======================================
+function dayIsReserved (reservations: Reservation[], date: Date) {
+  const momentDate = moment(date);
+  return some(reservations.map(({ start, end }) =>
+    start.isBefore(momentDate) && end.isAfter(momentDate)
+  ));
+}
+
+function enumerateDateRange (startDate: Date, endDate: Date): Date[] {
   const dates = [];
 
   const currDate = moment(startDate).startOf('day');
@@ -38,17 +39,20 @@ const enumerateDateRange = (startDate: Date, endDate: Date): Date[] => {
   }
 
   return dates;
-};
+}
 
-const formatDate = (date: Date) => moment(date).format('MMMM Do');
-const DateConfirmation: React.SFC<DateSelectionProp> = ({ selectedDates }) => {
+function formatDate (date: Date) {
+  return moment(date).format('MMMM Do');
+}
+
+// ============================ Components ====================================
+const DateConfirmation: React.FC<DateSelectionProp> = ({ reservations, selectedDates }) => {
   if (selectedDates === null) return null;
 
   // Confirm that none of the given dates are already reserved
   const [start, end] = selectedDates;
-  const dayIsReservedWrapped = dayIsReserved(reservations);
   const dateRange = enumerateDateRange(start, end);
-  const reservationStatusByDay = dateRange.map(date => dayIsReservedWrapped({ date }));
+  const reservationStatusByDay = dateRange.map(date => dayIsReserved(reservations, date));
   const alreadyReserved = some(reservationStatusByDay);
 
   // If any days have been reserved, print in red
@@ -63,7 +67,7 @@ const DateConfirmation: React.SFC<DateSelectionProp> = ({ selectedDates }) => {
     : rangeDiv;
 };
 
-const RightColumn: React.SFC<DateSelectionProp> = ({ selectedDates }) =>
+const RightColumn: React.FC<DateSelectionProp> = (props) =>
   <Typography>
     <Title level={3}>Thank you for your interest!</Title>
     <Paragraph>
@@ -76,25 +80,28 @@ const RightColumn: React.SFC<DateSelectionProp> = ({ selectedDates }) =>
     </Paragraph>
 
     <Paragraph>
-      <DateConfirmation selectedDates={selectedDates} />
+      <DateConfirmation {...props} />
     </Paragraph>
   </Typography>
 
 const Availability = () => {
-  const [reservedDays, setReservedDays] = useState(reservations);
-  const [selectedDates, setSelectedDates] = useState(null as DateSelection);
+  const [reservations, setReservations] = useState<Reservation[]>([]);
+  const [selectedDates, setSelectedDates] = useState<DateSelection>(null);
 
   useEffect(() => {
     // Query for dates that have been reserved
     const fetchReservations = async () => {
       // Make a request to AWS
       const reservationData = [{ start: moment('12/20/19'), end: moment('12/25/19') }];
-      setReservedDays(reservationData);
-      reservations = reservationData;
+      setReservations(reservationData);
     };
 
     fetchReservations();
   }, []);
+
+  // Moment object representing today. Used in the `tileIsDisabled` function.
+  // It's initialized here so we don't re-create it for every day of the month.
+  const today = moment();
 
   return (
     <Row>
@@ -105,16 +112,21 @@ const Availability = () => {
             onChange={dates => setSelectedDates(dates as Date[])}
             selectRange
             showNeighboringMonth
-            tileDisabled={dayIsReserved(reservedDays)}
+            tileDisabled={tileIsDisabled}
           />
         </div>
       </Col>
 
       <Col span={12}>
-        <RightColumn selectedDates={selectedDates} />
+        <RightColumn reservations={reservations} selectedDates={selectedDates} />
       </Col>
     </Row>
   );
+
+  function tileIsDisabled (props: CalendarTileProperties) {
+    const isPast = moment(props.date).isBefore(today);
+    return isPast || dayIsReserved(reservations, props.date);
+  }
 };
 
 export default Availability;
