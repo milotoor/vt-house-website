@@ -84,7 +84,7 @@ const RightColumn: React.FC<DateSelectionProp> = (props) =>
     </Paragraph>
   </Typography>
 
-const Availability = () => {
+const Availability: React.FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [selectedDates, setSelectedDates] = useState<DateSelection>(null);
 
@@ -129,4 +129,5 @@ const Availability = () => {
   }
 };
 
+// ============================ Exports =======================================
 export default Availability;

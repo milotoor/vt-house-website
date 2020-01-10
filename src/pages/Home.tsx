@@ -1,9 +1,11 @@
 import React from 'react';
 import { Typography, Divider } from 'antd';
 
+
 const { Paragraph } = Typography;
 
-export default () => 
+// ============================ Components ====================================
+const Home: React.FC = () => 
   <Typography>
     <Paragraph>
       This all-seasons lakeside house is the perfect getaway for families whether it’s a relaxing vacation, once-in-a-lifetime reunion or group event. Located at the north end of Lake Champlain’s Grand Isle it’s just 30 minutes from Burlington, less than two hours from Montreal and easy driving distance to some of Vermont’s finest ski slopes.
@@ -27,3 +29,6 @@ export default () =>
       The modern 4 ½ bath, 5-bedroom house (plus “bunkroom” and den) sleeps 12 comfortably with additional mattresses and sleeping bags available for overflow. The well-appointed cook’s kitchen has multiple refrigerators and dishwashers and several work areas to encourage group food prep!
     </Paragraph>
   </Typography>
+
+// ============================ Exports =======================================
+export default Home;

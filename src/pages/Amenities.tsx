@@ -5,11 +5,13 @@ import { SplitList } from './shared';
 
 const { Paragraph, Title } = Typography;
 
-interface AmenitySectionProps {
+// ============================ Types =========================================
+type AmenitySectionProps = {
   name: string
   amenities: string[]
-}
+};
 
+// ============================ Components ====================================
 const AmenitySection: React.FC<AmenitySectionProps> = ({ name, amenities }) => {
   return (
     <div className="amenity-section">
@@ -21,6 +23,18 @@ const AmenitySection: React.FC<AmenitySectionProps> = ({ name, amenities }) => {
   );
 };
 
+const Amenities: React.FC = () => 
+  <div>
+    <AmenitySection name="General" amenities={amenitySections.general} />
+    <Divider />
+    <AmenitySection name="Kitchen" amenities={amenitySections.kitchen} />
+    <Divider />
+    <AmenitySection name="Outdoor Equipment" amenities={amenitySections.outdoor} />
+    <Divider />
+    <AmenitySection name="For Small Children" amenities={amenitySections.children} />
+  </div>
+
+// ============================ Info ==========================================
 const amenitySections = {
   general: [
     'Ceiling fans in most rooms',
@@ -77,13 +91,5 @@ const amenitySections = {
   ]
 };
 
-export default () => 
-  <div>
-    <AmenitySection name="General" amenities={amenitySections.general} />
-    <Divider />
-    <AmenitySection name="Kitchen" amenities={amenitySections.kitchen} />
-    <Divider />
-    <AmenitySection name="Outdoor Equipment" amenities={amenitySections.outdoor} />
-    <Divider />
-    <AmenitySection name="For Small Children" amenities={amenitySections.children} />
-  </div>
+// ============================ Exports =======================================
+export default Amenities;
