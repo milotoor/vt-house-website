@@ -10,12 +10,20 @@ const tabKeyByRoute: TabKeyMap = {
   [routes.interior]: 3,
   [routes.accommodations]: 4,
   [routes.amenities]: 5,
-  [routes.recreation]: 6,
+  [routes.recreation.base]: 6,
   [routes.reservations]: 7
 };
 
-const tabAtPageLoad: number = ((): number => {
-  const pathname = window.location.pathname;
+const tabAtPageLoad = (() => {
+  let pathname = window.location.pathname;
+
+  // In case there are any sub-routes, only concern ourselves with the path name up until
+  // the second slash. The first character will always be the first slash.
+  let secondSlashIndex = pathname.indexOf('/', 1);
+  if (secondSlashIndex !== -1) {
+    pathname = pathname.slice(0, secondSlashIndex);
+  }
+
   if (Object.keys(tabKeyByRoute).includes(pathname)) {
     return tabKeyByRoute[pathname];
   }
@@ -35,7 +43,7 @@ const Menu = withRouter(({ history }) =>
     </AntMenu.Item>
 
     <AntMenu.Item key="3" onClick={() => history.push(routes.interior)}>
-      Interior
+      Interiore
     </AntMenu.Item>
 
     <AntMenu.Item key="4" onClick={() => history.push(routes.accommodations)}>

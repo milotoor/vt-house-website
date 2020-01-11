@@ -34,7 +34,7 @@ const App = () =>
             <Route path={routes.amenities}>
               <Pages.Amenities />
             </Route>
-            <Route path={routes.recreation}>
+            <Route path={routes.recreation.base}>
               <Pages.Recreation />
             </Route>
             <Route path={routes.reservations}>
