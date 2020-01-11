@@ -1,0 +1,19 @@
+{
+  "name": "lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "zip": "mv node_modules build && cd build && zip -r ../vt-crud-agent.zip . && cd .. && mv build/node_modules .",
+    "deploy": "aws lambda update-function-code --function-name vtDatabaseCRUDAgent --zip-file fileb://vt-crud-agent.zip",
+    "ship": "npm run build && npm run zip && npm run deploy"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.39",
+    "aws-sdk": "^2.601.0",
+    "node-uuid": "^1.4.8"
+  }
+}
