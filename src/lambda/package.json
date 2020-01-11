@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@types/aws-lambda": "^8.10.39",
-    "aws-sdk": "^2.601.0",
+    "@types/node-uuid": "0.0.28",
+    "moment": "^2.24.0",
     "node-uuid": "^1.4.8"
   }
 }
