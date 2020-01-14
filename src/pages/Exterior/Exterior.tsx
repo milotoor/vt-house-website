@@ -35,11 +35,10 @@ const Exterior: React.FC = () =>
 // ============================ Info ==========================================
 const galleryImages = [
   images.backyardFallLeaves,
-  images.outdoorTwilight1,
+  images.outdoorTwilight,
   images.lakeKayaks1,
   images.snowWalk,
-  images.lakeKayaks2,
-  images.outdoorTwilight2
+  images.lakeKayaks2
 ].map(formatImage);
 
 // ============================ Helpers =======================================

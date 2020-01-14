@@ -4,15 +4,13 @@
 import backyardFallLeaves from './full/backyard_fall_leaves.jpg';
 import lakeKayaks1 from './full/lake_kayaks_1.jpg';
 import lakeKayaks2 from './full/lake_kayaks_2.jpg';
-import outdoorTwilight1 from './full/outdoor_twilight_1.jpg';
-import outdoorTwilight2 from './full/outdoor_twilight_2.jpg';
+import outdoorTwilight from './full/outdoor_twilight.jpg';
 import snowWalk from './full/snow_walk.jpg';
 
 export default {
   backyardFallLeaves,
   lakeKayaks1,
   lakeKayaks2,
-  outdoorTwilight1,
-  outdoorTwilight2,
+  outdoorTwilight,
   snowWalk
 };
