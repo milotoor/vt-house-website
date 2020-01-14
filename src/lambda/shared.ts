@@ -16,7 +16,7 @@ export enum LAMBDA_ACTIONS {
   getReservations
 };
 
-export type Reservation = {
+export type ReservationRecord = {
   end: string
   id: string
   name: string

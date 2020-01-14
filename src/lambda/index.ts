@@ -36,7 +36,8 @@ function makeResponse (json: any) {
     statusCode: 200,
     body: JSON.stringify(json),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
     }
   };
 }

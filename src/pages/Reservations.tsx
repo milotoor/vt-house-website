@@ -3,6 +3,7 @@ import Calendar, { CalendarTileProperties } from 'react-calendar';
 import { Col, Row, Typography } from 'antd';
 import moment from 'moment';
 import some from 'lodash/some';
+import { LAMBDA_ACTIONS, ReservationRecord } from '../lambda/shared';
 import './Reservations.less';
 
 
@@ -24,7 +25,7 @@ interface DateSelectionProp {
 function dayIsReserved (reservations: Reservation[], date: Date) {
   const momentDate = moment(date);
   return some(reservations.map(({ start, end }) =>
-    start.isBefore(momentDate) && end.isAfter(momentDate)
+    start.isSameOrBefore(momentDate) && end.isSameOrAfter(momentDate)
   ));
 }
 
@@ -43,6 +44,20 @@ function enumerateDateRange (startDate: Date, endDate: Date): Date[] {
 
 function formatDate (date: Date) {
   return moment(date).format('MMMM Do');
+}
+
+/**
+ * Queries for dates that have been reserved
+ */
+function fetchReservations () {
+  const apiId = process.env.REACT_APP_API_ID;
+  const apiRegion = process.env.REACT_APP_API_REGION;
+  const apiStageName = process.env.REACT_APP_API_STAGE_NAME;
+  const apiAgentName = 'vtDatabaseCRUDAgent';
+  const uri = `https://${apiId}.execute-api.${apiRegion}.amazonaws.com/${apiStageName}/${apiAgentName}?type=${LAMBDA_ACTIONS.getReservations}`;
+
+  // Make a request to AWS
+  return fetch(uri).then(response => response.json());
 }
 
 // ============================ Components ====================================
@@ -90,13 +105,16 @@ const Availability: React.FC = () => {
 
   useEffect(() => {
     // Query for dates that have been reserved
-    const fetchReservations = async () => {
-      // Make a request to AWS
-      const reservationData = [{ start: moment('12/20/19'), end: moment('12/25/19') }];
-      setReservations(reservationData);
-    };
 
-    fetchReservations();
+    fetchReservations()
+      .then((results: ReservationRecord[]) => {
+        setReservations(results.map(({ start, end }) => {
+          return {
+            start: moment(start),
+            end: moment(end)
+          };
+        }));
+      });
   }, []);
 
   // Moment object representing today. Used in the `tileIsDisabled` function.
