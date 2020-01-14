@@ -43,7 +43,7 @@ const Menu = withRouter(({ history }) =>
     </AntMenu.Item>
 
     <AntMenu.Item key="3" onClick={() => history.push(routes.interior)}>
-      Interiore
+      Interior
     </AntMenu.Item>
 
     <AntMenu.Item key="4" onClick={() => history.push(routes.accommodations)}>
