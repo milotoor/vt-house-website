@@ -3,7 +3,9 @@ import Calendar, { CalendarTileProperties } from 'react-calendar';
 import { Col, Row, Typography } from 'antd';
 import moment from 'moment';
 import some from 'lodash/some';
+
 import { LAMBDA_ACTIONS, ReservationRecord } from '../lambda/shared';
+import { PagePadder } from './shared';
 import './Reservations.less';
 
 
@@ -122,23 +124,25 @@ const Availability: React.FC = () => {
   const today = moment();
 
   return (
-    <Row>
-      <Col span={12}>
-        <div className="calendar-container">
-          <Calendar
-            calendarType="US"
-            onChange={dates => setSelectedDates(dates as Date[])}
-            selectRange
-            showNeighboringMonth
-            tileDisabled={tileIsDisabled}
-          />
-        </div>
-      </Col>
+    <PagePadder>
+      <Row>
+        <Col span={12}>
+          <div className="calendar-container">
+            <Calendar
+              calendarType="US"
+              onChange={dates => setSelectedDates(dates as Date[])}
+              selectRange
+              showNeighboringMonth
+              tileDisabled={tileIsDisabled}
+            />
+          </div>
+        </Col>
 
-      <Col span={12}>
-        <RightColumn reservations={reservations} selectedDates={selectedDates} />
-      </Col>
-    </Row>
+        <Col span={12}>
+          <RightColumn reservations={reservations} selectedDates={selectedDates} />
+        </Col>
+      </Row>
+    </PagePadder>
   );
 
   function tileIsDisabled (props: CalendarTileProperties) {

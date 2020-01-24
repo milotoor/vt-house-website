@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Card, Col, Row, Tabs } from 'antd';
 import * as routes from '../../routes';
 import activities from './activities';
+import { PagePadder } from '../shared';
 import { ActivityProps } from './types';
 import './Recreation.less';
 
@@ -10,6 +11,14 @@ import './Recreation.less';
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
+// ============================ Types =========================================
+type SectionProps = {
+  activities: ActivityProps[]
+};
+
+type recreationSubRouteName = 'outings' | 'restaurants' | 'markets' | 'parks';
+
+// ============================ Components ====================================
 const Activity: React.FC<ActivityProps> = ({ description, href, imgSrc, name }) =>
   <Card
     style={{ width: 300 }}
@@ -19,10 +28,6 @@ const Activity: React.FC<ActivityProps> = ({ description, href, imgSrc, name }) 
   >
     <Meta title={name} description={description} />
   </Card>
-
-interface SectionProps {
-  activities: ActivityProps[]
-}
 
 const Section: React.FC<SectionProps> = ({ activities }) => {
   // Split the activities into rows
@@ -51,24 +56,8 @@ const Section: React.FC<SectionProps> = ({ activities }) => {
   );
 };
 
-type recreationSubRouteName = 'outings' | 'restaurants' | 'markets' | 'parks';
-const getDefaultActiveKey = (): recreationSubRouteName => {
-  const pathname = window.location.pathname;
-  const match = pathname.match(/\/recreation\/(?<routeName>.+)/);
-
-  // No match? Go to the first tab. Otherwise check the capture group
-  if (!match || !match.groups) return 'outings';
-
-  // Check the capture group
-  const subRoute = match.groups.routeName;
-  const subRoutes = ['outings', 'restaurants', 'markets', 'parks'];
-  return subRoutes.includes(subRoute)
-    ? subRoute as recreationSubRouteName
-    : 'outings';
-}
-
-export default withRouter(( { history }) => 
-  <div className="recreation-page">
+const Recreation = withRouter(( { history }) => 
+  <PagePadder className="recreation-page">
     <Tabs defaultActiveKey={getDefaultActiveKey()} onChange={(tabKey) => {
       history.push(routes.recreation[tabKey as recreationSubRouteName])
     }}>
@@ -85,5 +74,24 @@ export default withRouter(( { history }) =>
         <Section activities={activities.parks} />
       </TabPane>
     </Tabs>
-  </div>
+  </PagePadder>
 );
+
+// ============================ Helpers =======================================
+const getDefaultActiveKey = (): recreationSubRouteName => {
+  const pathname = window.location.pathname;
+  const match = pathname.match(/\/recreation\/(?<routeName>.+)/);
+
+  // No match? Go to the first tab. Otherwise check the capture group
+  if (!match || !match.groups) return 'outings';
+
+  // Check the capture group
+  const subRoute = match.groups.routeName;
+  const subRoutes = ['outings', 'restaurants', 'markets', 'parks'];
+  return subRoutes.includes(subRoute)
+    ? subRoute as recreationSubRouteName
+    : 'outings';
+}
+
+// ============================ Exports =======================================
+export default Recreation;

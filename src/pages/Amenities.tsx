@@ -1,6 +1,6 @@
 import React from 'react';
 import { Divider, Typography } from 'antd';
-import { SplitList } from './shared';
+import { PagePadder, SplitList } from './shared';
 
 
 const { Paragraph, Title } = Typography;
@@ -24,7 +24,7 @@ const AmenitySection: React.FC<AmenitySectionProps> = ({ name, amenities }) => {
 };
 
 const Amenities: React.FC = () => 
-  <div>
+  <PagePadder>
     <AmenitySection name="General" amenities={amenitySections.general} />
     <Divider />
     <AmenitySection name="Kitchen" amenities={amenitySections.kitchen} />
@@ -32,7 +32,7 @@ const Amenities: React.FC = () =>
     <AmenitySection name="Outdoor Equipment" amenities={amenitySections.outdoor} />
     <Divider />
     <AmenitySection name="For Small Children" amenities={amenitySections.children} />
-  </div>
+  </PagePadder>
 
 // ============================ Info ==========================================
 const amenitySections = {

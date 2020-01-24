@@ -1,6 +1,6 @@
 import React from 'react';
 import { Divider, Typography } from 'antd';
-import { SplitList } from './shared';
+import { PagePadder,SplitList } from './shared';
 
 
 const { Paragraph, Title } = Typography;
@@ -23,7 +23,7 @@ const Room: React.FC<RoomProps> = ({ name, description, features }) =>
   </div>
 
 const Accommodations: React.FC = () => 
-  <div>
+  <PagePadder>
     <Room name="First Floor Bedroom" {...rooms.firstFloor} />
     <Divider />
     <Room name="Second Floor Front Bedroom" {...rooms.secondFloorFront} />
@@ -37,7 +37,7 @@ const Accommodations: React.FC = () =>
     <Room name="Basement Bedroom" {...rooms.basement} />
     <Divider />
     <Room name="Basement Bunk-Room" {...rooms.basementBunk} />
-  </div>
+  </PagePadder>
 
 // ============================ Info ==========================================
 const rooms = {

@@ -2,6 +2,7 @@ import React from 'react';
 import ImageGallery from 'react-image-gallery';
 import { Typography } from 'antd';
 import images from './img';
+import { PagePadder } from '../shared';
 import './Exterior.less';
 
 
@@ -9,7 +10,7 @@ const { Paragraph } = Typography;
 
 // ============================ Components ====================================
 const Exterior: React.FC = () =>
-  <div>
+  <PagePadder>
     <ImageGallery
       items={galleryImages}
       showFullscreenButton={false}
@@ -30,7 +31,7 @@ const Exterior: React.FC = () =>
         Water activities are many. Several kayaks, a canoe and other water toys are available for use. Motorized boats can be rented from nearby marinas and parked in the boat lift attached to the dock. Or you can bring your own boat (up to 4,000 lbs.), launch it at one of several nearby public launch ramps and store it on our boat lift. A swim float is anchored offshore – the perfect perch for a rest from swimming. The shoreline is shale, not sand so water shoes are a good idea. Both life vests for boat activities and a collection of water shoes can be found on the screened porch and garage.
       </Paragraph>
     </Typography>
-  </div>
+  </PagePadder>
 
 // ============================ Info ==========================================
 const galleryImages = [
