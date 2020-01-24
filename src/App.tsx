@@ -2,10 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
-import './App.less';
 import Menu from './Menu';
 import * as Pages from './pages';
 import * as routes from './routes';
+import './App.less';
 
 
 const { Content, Sider } = Layout;
@@ -18,31 +18,31 @@ const App: React.FC = () =>
       </Sider>
 
       <Layout>
-        <Content style={{ margin: '0 16px' }}>
-          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Switch>
-            <Route path={routes.exterior}>
-              <Pages.Exterior />
-            </Route>
-            <Route path={routes.interior}>
-              <Pages.Interior />
-            </Route>
-            <Route path={routes.accommodations}>
-              <Pages.Accommodations />
-            </Route>
-            <Route path={routes.amenities}>
-              <Pages.Amenities />
-            </Route>
-            <Route path={routes.recreation.base}>
-              <Pages.Recreation />
-            </Route>
-            <Route path={routes.reservations}>
-              <Pages.Reservations />
-            </Route>
-            <Route path={routes.home}>
-              <Pages.Home />
-            </Route>
-          </Switch>
+        <Content style={{ margin: '0 16px', width: 850 }}>
+          <div id="content">
+            <Switch>
+              <Route path={routes.exterior}>
+                <Pages.Exterior />
+              </Route>
+              <Route path={routes.interior}>
+                <Pages.Interior />
+              </Route>
+              <Route path={routes.accommodations}>
+                <Pages.Accommodations />
+              </Route>
+              <Route path={routes.amenities}>
+                <Pages.Amenities />
+              </Route>
+              <Route path={routes.recreation.base}>
+                <Pages.Recreation />
+              </Route>
+              <Route path={routes.reservations}>
+                <Pages.Reservations />
+              </Route>
+              <Route path={routes.home}>
+                <Pages.Home />
+              </Route>
+            </Switch>
           </div>
         </Content>
       </Layout>
