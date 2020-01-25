@@ -13,11 +13,18 @@ const { Content, Sider } = Layout;
 const App: React.FC = () =>
   <Router>
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider>
+      <Sider
+        style={{
+          overflow: 'auto',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+        }}
+      >
         <Menu />
       </Sider>
 
-      <Layout>
+      <Layout style={{ marginLeft: 200 }}>
         <Content style={{ margin: '0 16px', width: 850 }}>
           <div id="content">
             <Switch>
