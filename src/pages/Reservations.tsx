@@ -51,7 +51,7 @@ function formatDate (date: Date) {
 /**
  * Queries for dates that have been reserved
  */
-function fetchReservations () {
+function fetchReservations () : Promise<ReservationRecord[]> {
   const apiId = process.env.REACT_APP_API_ID;
   const apiRegion = process.env.REACT_APP_API_REGION;
   const apiStageName = process.env.REACT_APP_API_STAGE_NAME;
@@ -107,7 +107,6 @@ const Availability: React.FC = () => {
 
   useEffect(() => {
     // Query for dates that have been reserved
-
     fetchReservations()
       .then((results: ReservationRecord[]) => {
         setReservations(results.map(({ start, end }) => {
