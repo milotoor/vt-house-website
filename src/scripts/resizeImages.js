@@ -33,28 +33,33 @@ async function resizeImages (dir, width, adjacent) {
   }
 
   // Iterate through the images and resize them one by one
-  imageNames.forEach(async (name) => {
-    let image;
-    try {
-      image = await jimp.read(path.join(dir, name));
-    } catch (e) {
-      console.log(`ERROR: Unable to resize image "${name}"`);
-      return;
-    }
-
-    const imageWidth = image.getWidth();
-    const imageHeight = image.getHeight();
-
-    if (imageWidth < width) {
-      console.warn(`Warning: image "${name}" has width ${imageWidth} which is less than ${width}`);
-    } else {
-      console.log(`Resizing image "${name}"`);
-    }
-
-    image
-      .resize(width, Math.round(width / imageWidth * imageHeight))
-      .write(path.join(outDir, name));
+  imageNames.forEach((name) => {
+    resizeImage(dir, outDir, name, width)
+      .error(e => `Image resizing failed with error: ${e}`);
   });
+}
+
+async function resizeImage (imageDir, outputDir, name, width) {
+  let image;
+  try {
+    image = await jimp.read(path.join(imageDir, name));
+  } catch (e) {
+    console.log(`ERROR: Unable to resize image "${name}"`);
+    return;
+  }
+
+  const imageWidth = image.getWidth();
+  const imageHeight = image.getHeight();
+
+  if (imageWidth < width) {
+    console.warn(`Warning: image "${name}" has width ${imageWidth} which is less than ${width}`);
+  } else {
+    console.log(`Resizing image "${name}"`);
+  }
+
+  image
+    .resize(width, Math.round(width / imageWidth * imageHeight))
+    .write(path.join(outputDir, name));
 }
 
 // Parse arguments
@@ -66,4 +71,5 @@ const argv = yargs
   .alias('a', 'adjacent')
   .argv;
 
-resizeImages(argv._[0], argv.width, argv.adjacent);
+resizeImages(argv._[0], argv.width, argv.adjacent)
+  .error(e => console.error(`Image resizing failed with error: ${e}`));
