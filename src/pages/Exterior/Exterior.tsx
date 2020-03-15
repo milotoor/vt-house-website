@@ -1,58 +1,56 @@
 import React from 'react';
-import ImageGallery from 'react-image-gallery';
-import { Typography } from 'antd';
-import images from './img';
-import { PagePadder } from '../shared';
+import { Carousel, Typography } from 'antd';
+import * as images from './img';
+import { FullWidthImage, ImageProps, PagePadder } from '../shared';
 import './Exterior.less';
 
 
 const { Paragraph } = Typography;
 
+// ============================ Types =========================================
+type CarouselPaneProps = {
+  image: ImageProps
+};
+
 // ============================ Components ====================================
+const CarouselPane: React.FC<CarouselPaneProps> = ({ children, image }) =>
+  <div className="carousel-pane">
+    <FullWidthImage {...image} />
+    <div className="pane-text">{children}</div>
+  </div>;
+
 const Exterior: React.FC = () =>
-  <PagePadder>
-    <ImageGallery
-      items={galleryImages}
-      showFullscreenButton={false}
-      showPlayButton={false}
-      showThumbnails={false}
-    />
+  <div>
+    <Carousel dotPosition="top" autoplay autoplaySpeed={10000}>
+      <CarouselPane image={images.backyardFallLeaves}>
+        The house is nestled among the trees on a gently sloping hillside with expansive views of Lake Champlain
+      </CarouselPane>
 
-    <Typography>
-      <Paragraph>
-        The house is nestled among the trees on a gently sloping hillside with expansive views of Lake Champlain. The property is about three acres with 400 feet or so of rocky beach located at the end of a private road shared by only eight other houses.
-      </Paragraph>
+      <CarouselPane image={images.outdoorTwilight}>
+        Dusk is the best time for spotting wildlife. Deer, rabbits— even bald eagles have been spotted!
+      </CarouselPane>
 
-      <Paragraph>
-        A large deck off the kitchen and screened porch has ample space for relaxation, reading and sunning. A deck runs the length of the house on the second floor as well with access from all rooms on the lake side of the house. The large meadow next to the house is ideal for baseball, bocce and has even been used for a family golf putting tournament!
-      </Paragraph>
+      <CarouselPane image={images.lakeKayaks1}>
+        Several kayaks, a canoe and other water toys are available for use. Motorized boats can be rented from nearby marinas and parked in the boat lift— or bring your own!
+      </CarouselPane>
 
-      <Paragraph>
-        Water activities are many. Several kayaks, a canoe and other water toys are available for use. Motorized boats can be rented from nearby marinas and parked in the boat lift attached to the dock. Or you can bring your own boat (up to 4,000 lbs.), launch it at one of several nearby public launch ramps and store it on our boat lift. A swim float is anchored offshore – the perfect perch for a rest from swimming. The shoreline is shale, not sand so water shoes are a good idea. Both life vests for boat activities and a collection of water shoes can be found on the screened porch and garage.
-      </Paragraph>
-    </Typography>
-  </PagePadder>
+      <CarouselPane image={images.snowWalk}>
+        Snowy walks are a wonderful way to experience the quiet winter landscape. Warm yourself by the fireplace upon your return.
+      </CarouselPane>
 
-// ============================ Info ==========================================
-const galleryImages = [
-  images.backyardFallLeaves,
-  images.outdoorTwilight,
-  images.lakeKayaks1,
-  images.snowWalk,
-  images.lakeKayaks2
-].map(formatImage);
+      <CarouselPane image={images.lakeKayaks2}>
+        A swim float is anchored offshore— the perfect perch for a rest from swimming. The shoreline is shale, not sand so water shoes are a good idea.
+      </CarouselPane>
+    </Carousel>
 
-// ============================ Helpers =======================================
-/**
- * Formats the image paths in the form that `react-image-gallery` wants them
- * 
- * @param image the URI of the image
- */
-function formatImage (image: string) {
-  return {
-    original: image
-  };
-}
+    <PagePadder>
+      <Typography>
+        <Paragraph>
+          A large deck off the kitchen and screened porch has ample space for relaxation, reading and sunning. A deck runs the length of the house on the second floor as well with access from all rooms on the lake side of the house. The large meadow next to the house is ideal for baseball, bocce and has even been used for a family golf putting tournament!
+        </Paragraph>
+      </Typography>
+    </PagePadder>
+  </div>;
 
 // ============================ Exports =======================================
 export default Exterior;
