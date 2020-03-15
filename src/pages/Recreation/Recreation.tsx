@@ -27,7 +27,7 @@ const Activity: React.FC<ActivityProps> = ({ description, href, imgSrc, name }) 
     onClick={() => window.open(href, '_blank')}
   >
     <Meta title={name} description={description} />
-  </Card>
+  </Card>;
 
 const Section: React.FC<SectionProps> = ({ activities }) => {
   // Split the activities into rows
