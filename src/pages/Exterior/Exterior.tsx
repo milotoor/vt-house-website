@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Carousel, Typography } from 'antd';
 import * as images from './img';
 import { FullWidthImage, ImageProps, PagePadder } from '../shared';
@@ -7,12 +7,12 @@ import './Exterior.less';
 
 const { Paragraph } = Typography;
 
-// ============================ Types =========================================
+/** ======================== Types ========================================= */
 type CarouselPaneProps = {
   image: ImageProps
 };
 
-// ============================ Components ====================================
+/** ======================== Components ==================================== */
 const CarouselPane: React.FC<CarouselPaneProps> = ({ children, image }) =>
   <div className="carousel-pane">
     <FullWidthImage {...image} />
@@ -52,5 +52,5 @@ const Exterior: React.FC = () =>
     </PagePadder>
   </div>;
 
-// ============================ Exports =======================================
+/** ======================== Exports ======================================= */
 export default Exterior;

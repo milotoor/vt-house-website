@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Card, Col, Row, Tabs } from 'antd';
 import * as routes from '../../routes';
@@ -11,14 +11,14 @@ import './Recreation.less';
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
-// ============================ Types =========================================
+/** ======================== Types ========================================= */
 type SectionProps = {
   activities: ActivityProps[]
 };
 
 type recreationSubRouteName = 'outings' | 'restaurants' | 'markets' | 'parks';
 
-// ============================ Components ====================================
+/** ======================== Components ==================================== */
 const Activity: React.FC<ActivityProps> = ({ description, href, imgSrc, name }) =>
   <Card
     style={{ width: 300 }}
@@ -77,7 +77,7 @@ const Recreation = withRouter(( { history }) =>
   </PagePadder>
 );
 
-// ============================ Helpers =======================================
+/** ======================== Helpers ======================================= */
 const getDefaultActiveKey = (): recreationSubRouteName => {
   const pathname = window.location.pathname;
   const match = pathname.match(/\/recreation\/(?<routeName>.+)/);
@@ -93,5 +93,5 @@ const getDefaultActiveKey = (): recreationSubRouteName => {
     : 'outings';
 }
 
-// ============================ Exports =======================================
+/** ======================== Exports ======================================= */
 export default Recreation;

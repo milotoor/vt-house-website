@@ -1,9 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import images from './img';
 import { FullWidthImage, PagePadder } from '../shared';
 
 
-// ============================ Components ====================================
+/** ======================== Components ==================================== */
 const Home: React.FC = () => 
   <div>
     <FullWidthImage src={images.twilight} alt="Front of the house at twilight" />
@@ -33,5 +33,5 @@ const Home: React.FC = () =>
     <FullWidthImage src={images.bedroom} alt="A bedroom looking very tidy" />
   </div>
 
-// ============================ Exports =======================================
+/** ======================== Exports ======================================= */
 export default Home;

@@ -1,18 +1,18 @@
-import React from 'react';
+import * as React from 'react';
 import { Divider, Typography } from 'antd';
 import { PagePadder,SplitList } from './shared';
 
 
 const { Paragraph, Title } = Typography;
 
-// ============================ Types =========================================
+/** ======================== Types ========================================= */
 type RoomProps = {
   name: string
   description: string
   features: string[]
 };
 
-// ============================ Components ====================================
+/** ======================== Components ==================================== */
 const Room: React.FC<RoomProps> = ({ name, description, features }) =>
   <div className="accommodation-room">
     <Title level={4}>{name}</Title>
@@ -39,7 +39,7 @@ const Accommodations: React.FC = () =>
     <Room name="Basement Bunk-Room" {...rooms.basementBunk} />
   </PagePadder>
 
-// ============================ Info ==========================================
+/** ======================== Info ========================================== */
 const rooms = {
   firstFloor: {
     description: 'Located off the kitchen, this bedroom is the only one on the main level. It is set up for 1 or 2 people, and has good access for elderly or handicapped guests.',
@@ -120,5 +120,5 @@ const rooms = {
   }
 };
 
-// ============================ Exports =======================================
+/** ======================== Exports ======================================= */
 export default Accommodations;

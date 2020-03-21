@@ -11,7 +11,7 @@ import './Reservations.less';
 
 const { Paragraph, Text, Title } = Typography;
 
-// ============================ Types =========================================
+/** ======================== Types ========================================= */
 type Reservation = {
   start: moment.Moment
   end: moment.Moment
@@ -23,7 +23,7 @@ interface DateSelectionProp {
   reservations: Reservation[]
 }
 
-// ============================ Helpers =======================================
+/** ======================== Helpers ======================================= */
 function dayIsReserved (reservations: Reservation[], date: Date) {
   const momentDate = moment(date);
   return some(reservations.map(({ start, end }) =>
@@ -62,7 +62,7 @@ function fetchReservations () : Promise<ReservationRecord[]> {
   return fetch(uri).then(response => response.json());
 }
 
-// ============================ Components ====================================
+/** ======================== Components ==================================== */
 const DateConfirmation: React.FC<DateSelectionProp> = ({ reservations, selectedDates }) => {
   if (selectedDates === null) return null;
 
@@ -150,5 +150,5 @@ const Availability: React.FC = () => {
   }
 };
 
-// ============================ Exports =======================================
+/** ======================== Exports ======================================= */
 export default Availability;

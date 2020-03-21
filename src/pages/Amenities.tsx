@@ -1,17 +1,17 @@
-import React from 'react';
+import * as React from 'react';
 import { Divider, Typography } from 'antd';
 import { PagePadder, SplitList } from './shared';
 
 
 const { Paragraph, Title } = Typography;
 
-// ============================ Types =========================================
+/** ======================== Types ========================================= */
 type AmenitySectionProps = {
   name: string
   amenities: string[]
 };
 
-// ============================ Components ====================================
+/** ======================== Components ==================================== */
 const AmenitySection: React.FC<AmenitySectionProps> = ({ name, amenities }) => {
   return (
     <div className="amenity-section">
@@ -34,7 +34,7 @@ const Amenities: React.FC = () =>
     <AmenitySection name="For Small Children" amenities={amenitySections.children} />
   </PagePadder>
 
-// ============================ Info ==========================================
+/** ======================== Info ========================================== */
 const amenitySections = {
   general: [
     'Ceiling fans in most rooms',
@@ -91,5 +91,5 @@ const amenitySections = {
   ]
 };
 
-// ============================ Exports =======================================
+/** ======================== Exports ======================================= */
 export default Amenities;
