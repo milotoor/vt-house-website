@@ -68,12 +68,3 @@ export {
   outsideBottom,
   outsideRightLong
 }
-
-function snakeToCamel (str: string) {
-  return str.split('_').map((word, i) => {
-    const lowerCased = word.toLowerCase();
-    if (i === 0) return lowerCased;
-
-    return lowerCased[0].toUpperCase() + lowerCased.slice(1);
-  }).join('');
-}

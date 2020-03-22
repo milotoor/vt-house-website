@@ -4,7 +4,7 @@ import { Flex, Img } from '../util';
 import * as img from './img';
 
 
-const FirstFloor: React.FC = () =>
+const Basement: React.FC = () =>
   <Flex className="floor-plan" column>
     <Img src={img.outsideTop} />
     <Flex>
@@ -38,4 +38,4 @@ const FirstFloor: React.FC = () =>
     <Img src={img.outsideBottom} />
   </Flex>;
 
-export default FirstFloor;
+export default Basement;

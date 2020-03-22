@@ -6,6 +6,7 @@ import * as routes from '../../routes';
 import { PagePadder } from '../shared';
 import Basement from './Basement';
 import FirstFloor from './FirstFloor';
+import SecondFloor from './SecondFloor';
 import './Interior.less';
 
 
@@ -26,8 +27,8 @@ const Interior = withRouter(( { history }) =>
       <TabPane tab="First Floor" key="first_floor">
         <FirstFloor />
       </TabPane>
-      <TabPane tab="Secnd Floor" key="second_floor">
-        
+      <TabPane tab="Second Floor" key="second_floor">
+        <SecondFloor />
       </TabPane>
     </Tabs>
   </PagePadder>
