@@ -31,7 +31,7 @@ const App: React.FC = () =>
               <Route path={routes.exterior}>
                 <Pages.Exterior />
               </Route>
-              <Route path={routes.interior}>
+              <Route path={routes.interior.base}>
                 <Pages.Interior />
               </Route>
               <Route path={routes.accommodations}>

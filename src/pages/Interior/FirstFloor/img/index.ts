@@ -6,7 +6,6 @@ import outsideTopSmall from './05Outside_Top_Small.jpg';
 import indoorDeck from './06Indoor_Deck.jpg';
 import frontHallwayLong from './07Front_Hallway_Long.jpg';
 import diningRoom from './08Dining_Room.jpg';
-import firstFloor from './main level.jpg';
 import garageTop from './09Garage_Top.jpg';
 import diningRoomEntrance from './10Dining_Room_Entrance.jpg';
 import hallClosets from './11Hall_Closets.jpg';

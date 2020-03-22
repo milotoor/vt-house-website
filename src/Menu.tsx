@@ -7,7 +7,7 @@ type TabKeyMap = { [key: string]: number };
 const tabKeyByRoute: TabKeyMap = {
   [routes.home]: 1,
   [routes.exterior]: 2,
-  [routes.interior]: 3,
+  [routes.interior.base]: 3,
   [routes.accommodations]: 4,
   [routes.amenities]: 5,
   [routes.recreation.base]: 6,
@@ -42,7 +42,7 @@ const Menu = withRouter(({ history }) =>
       Exterior
     </AntMenu.Item>
 
-    <AntMenu.Item key="3" onClick={() => history.push(routes.interior)}>
+    <AntMenu.Item key="3" onClick={() => history.push(routes.interior.first_floor)}>
       Interior
     </AntMenu.Item>
 

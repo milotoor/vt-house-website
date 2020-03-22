@@ -83,15 +83,16 @@ const getDefaultActiveKey = (): recreationSubRouteName => {
   const match = pathname.match(/\/recreation\/(?<routeName>.+)/);
 
   // No match? Go to the first tab. Otherwise check the capture group
-  if (!match || !match.groups) return 'outings';
+  const defaultTab = 'outings';
+  if (!match || !match.groups) return defaultTab;
 
   // Check the capture group
   const subRoute = match.groups.routeName;
   const subRoutes = ['outings', 'restaurants', 'markets', 'parks'];
   return subRoutes.includes(subRoute)
     ? subRoute as recreationSubRouteName
-    : 'outings';
-}
+    : defaultTab;
+};
 
 /** ======================== Exports ======================================= */
 export default Recreation;

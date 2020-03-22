@@ -1,7 +1,12 @@
 
 export const home = '/';
 export const exterior = '/exterior';
-export const interior = '/interior';
+export const interior = {
+  base: '/interior',
+  basement: '/interior/basement',
+  first_floor: '/interior/first_floor',
+  second_floor: '/interior/second_floor'
+};
 export const accommodations = '/accommodations';
 export const amenities = '/amenities';
 export const recreation = {
@@ -10,5 +15,5 @@ export const recreation = {
   restaurants: '/recreation/restaurants',
   markets: '/recreation/markets',
   parks: '/recreation/parks'
-}
+};
 export const reservations = '/reservations';

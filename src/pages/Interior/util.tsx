@@ -9,6 +9,7 @@ type ImgProps = {
 }
 
 type FlexProps = {
+  className?: string;
   column?: boolean;
 }
 

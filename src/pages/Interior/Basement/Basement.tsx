@@ -5,7 +5,7 @@ import * as img from './img';
 
 
 const FirstFloor: React.FC = () =>
-  <Flex column>
+  <Flex className="floor-plan" column>
     <Img src={img.outsideTop} />
     <Flex>
       <Img src={img.outsideLeftBig} />
