@@ -33,6 +33,7 @@ import frontPorch from './31Front_Porch.jpg';
 import outsideBottom from './32Outside_Bottom.jpg';
 import outsideRightLong from './33Outside_Right_Long.jpg';
 
+
 export {
   outsideLeft,
   outsideDeck,
@@ -66,9 +67,7 @@ export {
   garageBottom,
   frontPorch,
   outsideBottom,
-  outsideRightLong,
-
-  firstFloor
+  outsideRightLong
 }
 
 function snakeToCamel (str: string) {

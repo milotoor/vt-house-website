@@ -5,17 +5,17 @@ import * as img from './img';
 
 
 const FirstFloor: React.FC = () =>
-  <Flex width={483}>
-    <Flex width={52}>
+  <Flex>
+    <Flex>
       <Img src={img.outsideLeft} />
     </Flex>
 
-    <Flex width={396} column>
+    <Flex column>
       <Flex>
-        <Flex width={199}>
+        <Flex>
           <Img src={img.outsideDeck} room />
         </Flex>
-        <Flex width={197} column>
+        <Flex column>
           <Img src={img.outsideTop} />
           <Flex>
             <Img src={img.kitchenWindow} />
@@ -25,15 +25,15 @@ const FirstFloor: React.FC = () =>
       </Flex>
 
       <Flex>
-        <Flex width={144} column>
+        <Flex column>
           <Img src={img.indoorDeck} />
           <Flex>
-            <Flex width={127} column>
+            <Flex column>
               <Img room src={img.diningRoom} />
               <Img src={img.garageTop} />
             </Flex>
 
-            <Flex width={17} column>
+            <Flex column>
               <Img room src={img.diningRoomEntrance} />
               <Img src={img.hallClosets} />
             </Flex>
@@ -42,7 +42,7 @@ const FirstFloor: React.FC = () =>
 
         <Img src={img.frontHallwayLong} />
 
-        <Flex width={212} column>
+        <Flex column>
           <Flex>
             <Img room src={img.kitchen} />
             <Img room src={img.livingRoom} />
@@ -95,7 +95,7 @@ const FirstFloor: React.FC = () =>
       </Flex>
     </Flex>
 
-    <Flex width={35}>
+    <Flex>
       <Img src={img.outsideRightLong} />
     </Flex>
   </Flex>;
