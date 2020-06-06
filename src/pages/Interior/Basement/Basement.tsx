@@ -1,41 +1,41 @@
 import * as React from 'react';
 
 import { Flex, Img } from '../util';
-import * as img from './img';
+import { floorplan } from './img';
 
 
 const Basement: React.FC = () =>
   <Flex className="floor-plan" column>
-    <Img src={img.outsideTop} />
+    <Img src={floorplan.outsideTop} />
     <Flex>
-      <Img src={img.outsideLeftBig} />
+      <Img src={floorplan.outsideLeftBig} />
       <Flex column>
         <Flex>
-          <Img src={img.storageRoom} />
-          <Img room src={img.bunkRoomLeft} />
-          <Img room src={img.bunkRoomBeds} />
-          <Img src={img.bathroom} />
-          <Img src={img.outsideRightTop} />
+          <Img src={floorplan.storageRoom} />
+          <Img room="bunk" src={floorplan.bunkRoomLeft} />
+          <Img room="bunk" src={floorplan.bunkRoomBeds} />
+          <Img src={floorplan.bathroom} />
+          <Img src={floorplan.outsideRightTop} />
         </Flex>
 
         <Flex>
-          <Img src={img.outsideLeft} />
+          <Img src={floorplan.outsideLeft} />
           <Flex column>
             <Flex>
-              <Img room src={img.bunkRoomMid} />
-              <Img src={img.outsideRightBottom} />
+              <Img room="bunk" src={floorplan.bunkRoomMid} />
+              <Img src={floorplan.outsideRightBottom} />
             </Flex>
 
             <Flex>
-              <Img room src={img.bunkRoomStairs} />
-              <Img room src={img.basementBedroom} />
+              <Img room="bunk" src={floorplan.bunkRoomStairs} />
+              <Img room="bed_basement" src={floorplan.basementBedroom} />
             </Flex>
           </Flex>
         </Flex>
       </Flex>
-      <Img src={img.outsideRightBig} />
+      <Img src={floorplan.outsideRightBig} />
     </Flex>
-    <Img src={img.outsideBottom} />
+    <Img src={floorplan.outsideBottom} />
   </Flex>;
 
 export default Basement;

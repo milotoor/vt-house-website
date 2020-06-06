@@ -1,48 +1,48 @@
 import * as React from 'react';
 
 import { Flex, Img } from '../util';
-import * as img from './img';
+import { floorplan } from './img';
 
 
 const SecondFloor: React.FC = () =>
   <Flex className="floor-plan" column>
-    <Img src={img.outsideTop} />
+    <Img src={floorplan.outsideTop} />
     <Flex>
-      <Img src={img.outsideLeft} />
+      <Img src={floorplan.outsideLeft} />
       <Flex column>
         <Flex>
-          <Img src={img.masterBedroom} />
+          <Img room="bed_master" src={floorplan.masterBedroom} />
           <Flex column>
-            <Img src={img.den} />
+            <Img room="den" src={floorplan.den} />
             <Flex>
-              <Img src={img.masterBedroomSmall} />
-              <Img src={img.hallwaySmall} />
+              <Img room="bed_master" src={floorplan.masterBedroomSmall} />
+              <Img src={floorplan.hallwaySmall} />
             </Flex>
           </Flex>
-          <Img src={img.lakesideBedroom} />
+          <Img room="bed_lakeside" src={floorplan.lakesideBedroom} />
         </Flex>
 
         <Flex>
           <Flex column>
-            <Img src={img.severalRooms} />
-            <Img src={img.outsideSliver} />
+            <Img src={floorplan.severalRooms} />
+            <Img src={floorplan.outsideSliver} />
           </Flex>
           <Flex column>
             <Flex>
-              <Img src={img.stairsBedroomSmall} />
-              <Img src={img.lakesideBedroomSmall} />
+              <Img room="bed_2f" src={floorplan.stairsBedroomSmall} />
+              <Img room="bed_lakeside" src={floorplan.lakesideBedroomSmall} />
             </Flex>
-            <Img src={img.stairsBedroomMid} />
+            <Img room="bed_2f" src={floorplan.stairsBedroomMid} />
             <Flex>
-              <Img src={img.stairs} />
-              <Img src={img.stairsBedroomBottom} />
+              <Img src={floorplan.stairs} />
+              <Img room="bed_2f" src={floorplan.stairsBedroomBottom} />
             </Flex>
           </Flex>
         </Flex>
       </Flex>
-      <Img src={img.outsideRight} />
+      <Img src={floorplan.outsideRight} />
     </Flex>
-    <Img src={img.outsideBottom} />
+    <Img src={floorplan.outsideBottom} />
   </Flex>;
 
 export default SecondFloor;

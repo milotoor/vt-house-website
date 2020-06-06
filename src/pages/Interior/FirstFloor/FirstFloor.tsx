@@ -1,65 +1,65 @@
 import * as React from 'react';
 
 import { Flex, Img } from '../util';
-import * as img from './img';
+import { floorplan } from './img';
 
 
 const FirstFloor: React.FC = () =>
   <Flex className="floor-plan">
     <Flex>
-      <Img src={img.outsideLeft} />
+      <Img src={floorplan.outsideLeft} />
     </Flex>
 
     <Flex column>
       <Flex>
         <Flex>
-          <Img src={img.outsideDeck} room />
+          <Img src={floorplan.outsideDeck} room="deck" />
         </Flex>
         <Flex column>
-          <Img src={img.outsideTop} />
+          <Img src={floorplan.outsideTop} />
           <Flex>
-            <Img src={img.kitchenWindow} />
-            <Img src={img.outsideTopSmall} />
+            <Img src={floorplan.kitchenWindow} />
+            <Img src={floorplan.outsideTopSmall} />
           </Flex>
         </Flex>
       </Flex>
 
       <Flex>
         <Flex column>
-          <Img src={img.indoorDeck} />
+          <Img room="deck" src={floorplan.indoorDeck} />
           <Flex>
             <Flex column>
-              <Img room src={img.diningRoom} />
-              <Img src={img.garageTop} />
+              <Img room="dining" src={floorplan.diningRoom} />
+              <Img src={floorplan.garageTop} />
             </Flex>
 
             <Flex column>
-              <Img room src={img.diningRoomEntrance} />
-              <Img src={img.hallClosets} />
+              <Img room="dining" src={floorplan.diningRoomEntrance} />
+              <Img src={floorplan.hallClosets} />
             </Flex>
           </Flex>
         </Flex>
 
-        <Img src={img.frontHallwayLong} />
+        <Img src={floorplan.frontHallwayLong} />
 
         <Flex column>
           <Flex>
-            <Img room src={img.kitchen} />
-            <Img room src={img.livingRoom} />
+            <Img room="kitchen" src={floorplan.kitchen} />
+            <Img room="living" src={floorplan.livingRoom} />
           </Flex>
           <Flex>
-            <Img src={img.laundryRoom} />
-            <Img room src={img.bedroomHallwayLarge} />
+            <Img src={floorplan.laundryRoom} />
+            <Img room="bed_1f" src={floorplan.bedroomHallwayLarge} />
 
             <Flex column>
-              <Img src={img.bathroomLarge} />
+              <Img src={floorplan.bathroomLarge} />
               <Flex>
-                <Img room src={img.bedroomSmallest} />
-                <Img src={img.bathroomSmallest} />
+                <Img room="bed_1f" src={floorplan.bedroomSmallest} />
+                <Img src={floorplan.bathroomSmallest} />
               </Flex>
             </Flex>
 
-            <Img src={img.outsideRightSmall1} />
+            <Img src={floorplan.outsideRightSmall1} />
           </Flex>
         </Flex>
       </Flex>
@@ -67,36 +67,36 @@ const FirstFloor: React.FC = () =>
       <Flex>
         <Flex column>
           <Flex>
-            <Img src={img.garageMiddle} />
+            <Img src={floorplan.garageMiddle} />
             <Flex column>
-              <Img src={img.mudRoom} />
-              <Img src={img.hallBathroom} />
+              <Img src={floorplan.mudRoom} />
+              <Img src={floorplan.hallBathroom} />
             </Flex>
 
-            <Img src={img.frontHallwayEntrance} />
+            <Img src={floorplan.frontHallwayEntrance} />
 
             <Flex column>
               <Flex>
-                <Img src={img.laundryRoomSmall} />
-                <Img room src={img.bedroomHallwaySmall} />
-                <Img room src={img.bedroomSmall} />
-                <Img src={img.bathroomSmall} />
+                <Img src={floorplan.laundryRoomSmall} />
+                <Img room="bed_1f" src={floorplan.bedroomHallwaySmall} />
+                <Img room="bed_1f" src={floorplan.bedroomSmall} />
+                <Img src={floorplan.bathroomSmall} />
               </Flex>
-              <Img room src={img.bedroom} />
+              <Img room="bed_1f" src={floorplan.bedroom} />
             </Flex>
           </Flex>
           <Flex>
-            <Img src={img.garageBottom} />
-            <Img src={img.frontPorch} />
+            <Img src={floorplan.garageBottom} />
+            <Img src={floorplan.frontPorch} />
           </Flex>
         </Flex>
 
-        <Img src={img.outsideRightSmall2} />
+        <Img src={floorplan.outsideRightSmall2} />
       </Flex>
     </Flex>
 
     <Flex>
-      <Img src={img.outsideRightLong} />
+      <Img src={floorplan.outsideRightLong} />
     </Flex>
   </Flex>;
 

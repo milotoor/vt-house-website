@@ -1,20 +1,20 @@
-import storageRoom from './01Storage_Room.jpg';
-import bunkRoomLeft from './02Bunk_Room_Left.jpg';
-import bunkRoomBeds from './03Bunk_Room_Beds.jpg';
-import bathroom from './04Bathroom.jpg';
-import outsideRightTop from './05Outside_Right_Top.jpg';
-import outsideLeft from './06Outside_Left.jpg';
-import bunkRoomMid from './07Bunk_Room_Mid.jpg';
-import outsideRightBottom from './08Outside_Right_Bottom.jpg';
-import bunkRoomStairs from './09Bunk_Room_Stairs.jpg';
-import basementBedroom from './10Basement_Bedroom.jpg';
-import outsideTop from './11Outside_Top.jpg';
-import outsideLeftBig from './12Outside_Left_Big.jpg';
-import outsideRightBig from './13Outside_Right_Big.jpg';
-import outsideBottom from './14Outside_Bottom.jpg';
+import storageRoom from './floorplan/01Storage_Room.jpg';
+import bunkRoomLeft from './floorplan/02Bunk_Room_Left.jpg';
+import bunkRoomBeds from './floorplan/03Bunk_Room_Beds.jpg';
+import bathroom from './floorplan/04Bathroom.jpg';
+import outsideRightTop from './floorplan/05Outside_Right_Top.jpg';
+import outsideLeft from './floorplan/06Outside_Left.jpg';
+import bunkRoomMid from './floorplan/07Bunk_Room_Mid.jpg';
+import outsideRightBottom from './floorplan/08Outside_Right_Bottom.jpg';
+import bunkRoomStairs from './floorplan/09Bunk_Room_Stairs.jpg';
+import basementBedroom from './floorplan/10Basement_Bedroom.jpg';
+import outsideTop from './floorplan/11Outside_Top.jpg';
+import outsideLeftBig from './floorplan/12Outside_Left_Big.jpg';
+import outsideRightBig from './floorplan/13Outside_Right_Big.jpg';
+import outsideBottom from './floorplan/14Outside_Bottom.jpg';
 
 
-export {
+export const floorplan = {
   storageRoom,
   bunkRoomLeft,
   bunkRoomBeds,
