@@ -1,3 +1,4 @@
+import * as imagesBasement from './Basement/img';
 import * as imagesFirstFloor from './FirstFloor/img';
 
 
@@ -45,7 +46,7 @@ const rooms: Record<Room, RoomData> = {
   },
   bed_basement: {
     description: 'The queen bed makes this room suitable for 1 or 2 people, and the basement locale make it very quiet and private. Two doors to the meadow provide good light and cool air.',
-    images: [],
+    images: [imagesBasement.photos.bedroom1, imagesBasement.photos.bedroom2],
     name: 'Bedroom'
   },
   bed_lakeside: {
@@ -60,7 +61,7 @@ const rooms: Record<Room, RoomData> = {
   },
   bunk: {
     description: 'The main kids sleeping room, this has up to 6 beds. The basement is cool and dark, making it good for late-sleeping teenagers. A TV equipped with VCR and DVD player, two video game systems and a weighty stack of games are all available for your enjoyment.',
-    images: [],
+    images: [imagesBasement.photos.bunkroom1, imagesBasement.photos.bunkroom2],
     name: 'Bunk Room'
   },
   deck: {
