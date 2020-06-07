@@ -1,5 +1,8 @@
 import * as React from 'react';
+import { Carousel, Popover } from 'antd';
 import classNames from 'classnames';
+
+import roomData, { Room } from './rooms';
 
 
 /** ======================== Types ========================================= */
@@ -13,42 +16,45 @@ type FlexProps = {
   column?: boolean;
 }
 
-export type Room =
-  | 'bed_1f'
-  | 'bed_2f'
-  | 'bed_basement'
-  | 'bed_lakeside'
-  | 'bed_master'
-  | 'bunk'
-  | 'deck'
-  | 'den'
-  | 'dining'
-  | 'kitchen'
-  | 'living'
-  | 'porch';
-
-/** ======================== Context ======================================= */
-type InteriorContextType = {
-  activeRoom: Room | undefined;
-  showRoom: (room: Room | undefined) => void;
-};
-
-export const InteriorContext = React.createContext<InteriorContextType>({
-  activeRoom: undefined,
-  showRoom: room => {}
-});
-
 /** ======================== Components ==================================== */
 export const Img: React.FC<ImgProps> = ({ room, src }) => {
-  const { showRoom } = React.useContext(InteriorContext);
-  return (
+  const image = (
     <img
       alt="floor plan img"
       className={classNames({ room })}
-      onClick={() => room && showRoom(room)}
       src={src}
     />
   );
+
+  if (room) {
+    const roomInfo = roomData[room];
+    return (
+      <Popover content={
+        <div style={{ maxWidth: 800, overflow: 'auto' }}>
+          <div style={{ display: 'inline', float: 'right', marginLeft: 10 }}>
+            {
+              roomInfo && (
+                roomInfo.images.length === 1
+                  ? <img alt={roomInfo.name} src={roomInfo.images[0].thumbnail} />
+                  : (
+                    <Carousel autoplay autoplaySpeed={5000} effect="fade" style={{ width: 200 }}>
+                      {roomInfo?.images.map((img, i) =>
+                        <img alt={roomInfo.name} key={i} src={img.thumbnail} />
+                      )}
+                    </Carousel>
+                  )
+              )
+            }
+          </div>
+          {roomInfo.description}
+        </div>
+      } title={roomInfo.name}>
+        {image}
+      </Popover>
+    );
+  }
+
+  return image;
 };
 
 export const Flex: React.FC<FlexProps> = (props) => {

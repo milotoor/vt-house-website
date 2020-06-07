@@ -26,7 +26,7 @@ const FirstFloor: React.FC = () =>
 
       <Flex>
         <Flex column>
-          <Img room="deck" src={floorplan.indoorDeck} />
+          <Img room="porch" src={floorplan.indoorDeck} />
           <Flex>
             <Flex column>
               <Img room="dining" src={floorplan.diningRoom} />
