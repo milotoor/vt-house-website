@@ -1,5 +1,6 @@
 import * as imagesBasement from './Basement/img';
 import * as imagesFirstFloor from './FirstFloor/img';
+import * as imagesSecondFloor from './SecondFloor/img';
 
 
 /** ======================== Types ========================================= */
@@ -41,7 +42,7 @@ const rooms: Record<Room, RoomData> = {
   },
   bed_2f: {
     description: 'Smallest of the bedrooms, good for 1 or 2 people. Large skylight directly above the bed makes this room ideal for early risers.',
-    images: [],
+    images: [imagesSecondFloor.photos.bedroom1, imagesSecondFloor.photos.bedroom2],
     name: 'Front Bedroom'
   },
   bed_basement: {
@@ -51,12 +52,12 @@ const rooms: Record<Room, RoomData> = {
   },
   bed_lakeside: {
     description: 'Largest bedroom in the house, with room for a couple plus space for a mattress and/or crib on the floor. French doors lead to spacious deck seating area with view of the lake.',
-    images: [],
+    images: [imagesSecondFloor.photos.lakeside1, imagesSecondFloor.photos.lakeside2],
     name: 'Lakeside Bedroom'
   },
   bed_master: {
     description: 'The master bedroom offers much in the way of comfort and privacy, as demonstrated by the king bed and private bathroom. Two doors open to a deck spanning the length of the second floor.',
-    images: [],
+    images: [imagesSecondFloor.photos.master1, imagesSecondFloor.photos.master2],
     name: 'Master Bedroom'
   },
   bunk: {
@@ -71,7 +72,7 @@ const rooms: Record<Room, RoomData> = {
   },
   den: {
     description: 'Open den area on the second floor which can be closed off with sliding fabric panels to create a bedroom area. The queensize sofa-bed can be easily converted from one form to the other. Within the room is a 27" TV with DirecTV (satellite channels) and Tivo.',
-    images: [],
+    images: [imagesSecondFloor.photos.den1, imagesSecondFloor.photos.den2],
     name: 'Den'
   },
   dining: {
