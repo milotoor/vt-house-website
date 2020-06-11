@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Resizes images from their full size to a specified width. This is done so
  * that we can manipulate images without overwriting the originals.
@@ -35,7 +37,7 @@ async function resizeImages (dir, width, adjacent) {
   // Iterate through the images and resize them one by one
   imageNames.forEach((name) => {
     resizeImage(dir, outDir, name, width)
-      .error(e => `Image resizing failed with error: ${e}`);
+      .catch(e => `Image resizing failed with error: ${e}`);
   });
 }
 
@@ -72,4 +74,4 @@ const argv = yargs
   .argv;
 
 resizeImages(argv._[0], argv.width, argv.adjacent)
-  .error(e => console.error(`Image resizing failed with error: ${e}`));
+  .catch(e => console.error(`Image resizing failed with error: ${e}`));
