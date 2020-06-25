@@ -4,8 +4,8 @@ import { Col, Row, Typography } from 'antd';
 import moment from 'moment';
 import some from 'lodash/some';
 
-import { LAMBDA_ACTIONS, ReservationRecord } from '../lambda/shared';
-import { PagePadder } from './shared';
+import { LAMBDA_ACTIONS, ReservationRecord } from '../../lambda/shared';
+import { PagePadder } from '../shared';
 import './Reservations.less';
 
 
@@ -99,7 +99,7 @@ const RightColumn: React.FC<DateSelectionProp> = (props) =>
     <Paragraph>
       <DateConfirmation {...props} />
     </Paragraph>
-  </Typography>
+  </Typography>;
 
 const Availability: React.FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
