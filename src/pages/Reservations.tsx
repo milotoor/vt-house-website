@@ -88,7 +88,7 @@ const RightColumn: React.FC<DateSelectionProp> = (props) =>
   <Typography>
     <Title level={3}>Thank you for your interest!</Title>
     <Paragraph>
-      To make a reservation, please select the dates of interest and e-mail us at <a href="mailto:reservations@champlainhaven.com">reservations@champlainhaven.com</a>.
+      To make a reservation, please select the dates of interest and e-mail us at <a href="mailto:reservations@2or.net">reservations@2or.net</a>.
     </Paragraph>
 
     <Paragraph>

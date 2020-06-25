@@ -12,16 +12,13 @@ type AmenitySectionProps = {
 };
 
 /** ======================== Components ==================================== */
-const AmenitySection: React.FC<AmenitySectionProps> = ({ name, amenities }) => {
-  return (
-    <div className="amenity-section">
-      <Title level={3}>{name}</Title>
-      <Paragraph>
-        <SplitList listItems={amenities} />
-      </Paragraph>
-    </div>
-  );
-};
+const AmenitySection: React.FC<AmenitySectionProps> = ({ name, amenities }) =>
+  <div className="amenity-section">
+    <Title level={3}>{name}</Title>
+    <Paragraph>
+      <SplitList listItems={amenities} />
+    </Paragraph>
+  </div>;
 
 const Amenities: React.FC = () => 
   <PagePadder>
@@ -32,13 +29,14 @@ const Amenities: React.FC = () =>
     <AmenitySection name="Outdoor Equipment" amenities={amenitySections.outdoor} />
     <Divider />
     <AmenitySection name="For Small Children" amenities={amenitySections.children} />
-  </PagePadder>
+  </PagePadder>;
 
 /** ======================== Info ========================================== */
 const amenitySections = {
   general: [
     'Ceiling fans in most rooms',
     'Gas fireplace in Living Room',
+    'Radiant heat throughout the house, for use in all seasons',
     'Table with seating for 12',
     'High speed Wi-Fi',
     'Coolers',
@@ -74,13 +72,10 @@ const amenitySections = {
     'Badminton',
     'Hammock',
     '5 mountain bikes',
-    'Tent & sleeping bags',
     '4 kayaks',
     'Plenty of beach towels and water shoes',
-    'Dock, with boat lift (suitable for ski boat)',
-    'Tennis rackets & baseball equipment',
-    '25 foot rope swing',
-    'Fishing poles'
+    'Dock, with jet-ski lift (bring your own jet-ski)',
+    'Tennis rackets & baseball equipment'
   ],
 
   children: [

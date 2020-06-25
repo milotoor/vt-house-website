@@ -6,13 +6,14 @@ import allenholmFarm from './resized/allenholm_farm.jpg';
 import benAndJerrys from './resized/ben_and_jerry_factory.jpg';
 import bluePaddle from './resized/blue_paddle.png';
 import burtonIslandSP from './resized/burton_island.jpg';
+import candyLab from './resized/candy_lab.jpg';
 import cumberlandBaySp from './resized/cumberland_bay_sp.jpg';
 import grandIsleSP from './resized/grand_isle_sp.jpg';
 import herosWelcome from './resized/heros_welcome.jpg';
 import hiking from './resized/hiking.jpg';
 import keelersBayVariety from './resized/keelers_bay_variety.jpg';
 import lakeChamplainChocolates from './resized/lake_champlain_chocolates.jpg';
-import lakeMontsters from './resized/lake_monsters.svg';
+import lakeMonsters from './resized/lake_monsters.svg';
 import missisquoiNWR from './resized/missisquoi_nwr.jpg';
 import northHeroHouse from './resized/north_hero_house.jpg';
 import northHeroMarina from './resized/north_hero_marina.jpg';
@@ -23,6 +24,7 @@ import shoreAcres from './resized/shore_acres.jpg';
 import skiing from './resized/skiing.jpg';
 import southHeroFarmersMarket from './resized/south_hero_farmers_market.jpg';
 import stAlbansTownPark from './resized/st_albans_town_park.jpg';
+import victoriasCafe from './resized/victorias_cafe.jpg';
 
 export default {
   aAndBMarket,
@@ -30,13 +32,14 @@ export default {
   benAndJerrys,
   bluePaddle,
   burtonIslandSP,
+  candyLab,
   cumberlandBaySp,
   grandIsleSP,
   herosWelcome,
   hiking,
   keelersBayVariety,
   lakeChamplainChocolates,
-  lakeMontsters,
+  lakeMontsters: lakeMonsters,
   missisquoiNWR,
   northHeroHouse,
   northHeroMarina,
@@ -46,5 +49,6 @@ export default {
   shoreAcres,
   skiing,
   southHeroFarmersMarket,
-  stAlbansTownPark
+  stAlbansTownPark,
+  victoriasCafe
 };

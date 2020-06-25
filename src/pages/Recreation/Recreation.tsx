@@ -79,8 +79,8 @@ const Recreation = withRouter(( { history }) =>
 
 /** ======================== Helpers ======================================= */
 const getDefaultActiveKey = (): recreationSubRouteName => {
-  const pathname = window.location.pathname;
-  const match = pathname.match(/\/recreation\/(?<routeName>.+)/);
+  const { hash } = window.location;
+  const match = hash.match(/#\/recreation\/(?<routeName>.+)/);
 
   // No match? Go to the first tab. Otherwise check the capture group
   const defaultTab = 'outings';
