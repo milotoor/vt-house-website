@@ -4,8 +4,8 @@ import { Col, Row, Typography } from 'antd';
 import moment from 'moment';
 import some from 'lodash/some';
 
-import { LAMBDA_ACTIONS, ReservationRecord } from '../lambda/shared';
-import { PagePadder } from './shared';
+import { LAMBDA_ACTIONS, ReservationRecord } from '../../lambda/shared';
+import { PagePadder } from '../shared';
 import './Reservations.less';
 
 
@@ -88,7 +88,7 @@ const RightColumn: React.FC<DateSelectionProp> = (props) =>
   <Typography>
     <Title level={3}>Thank you for your interest!</Title>
     <Paragraph>
-      To make a reservation, please select the dates of interest and e-mail us at <a href="mailto:reservations@champlainhaven.com">reservations@champlainhaven.com</a>.
+      To make a reservation, please select the dates of interest and e-mail us at <a href="mailto:reservations@2or.net">reservations@2or.net</a>.
     </Paragraph>
 
     <Paragraph>
@@ -99,7 +99,7 @@ const RightColumn: React.FC<DateSelectionProp> = (props) =>
     <Paragraph>
       <DateConfirmation {...props} />
     </Paragraph>
-  </Typography>
+  </Typography>;
 
 const Availability: React.FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);

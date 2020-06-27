@@ -4,4 +4,4 @@ export { default as Exterior } from './Exterior';
 export { default as Home } from './Home';
 export { default as Interior } from './Interior';
 export { default as Recreation } from './Recreation';
-export { default as Reservations } from './Reservations';
+export { default as Reservations } from './Reservations/Reservations';

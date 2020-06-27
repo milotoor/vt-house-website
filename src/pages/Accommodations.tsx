@@ -20,7 +20,7 @@ const Room: React.FC<RoomProps> = ({ name, description, features }) =>
     <Paragraph>
       <SplitList listItems={features} />
     </Paragraph>
-  </div>
+  </div>;
 
 const Accommodations: React.FC = () => 
   <PagePadder>
@@ -37,7 +37,7 @@ const Accommodations: React.FC = () =>
     <Room name="Basement Bedroom" {...rooms.basement} />
     <Divider />
     <Room name="Basement Bunk-Room" {...rooms.basementBunk} />
-  </PagePadder>
+  </PagePadder>;
 
 /** ======================== Info ========================================== */
 const rooms = {
@@ -89,11 +89,10 @@ const rooms = {
   },
 
   secondFloorDen: {
-    description: 'Open den area on the second floor can be closed off with sliding fabric panels to create a bedroom area.',
+    description: 'Open den area on the second floor with a TV, access to the back upper-deck and a nice view of the lake.',
     features: [
-      '27" TV with DVD & VCR',
-      'DirecTV with TiVo',
-      'Couch with Queen Sofa-bed',
+      '36" LCD TV with DVD player, Apple TV and rooftop antennae (no cable)',
+      'Sofa (seats 3)',
       '2 desk areas'
     ]
   },
@@ -108,7 +107,7 @@ const rooms = {
   },
 
   basementBunk: {
-    description: 'The main kids sleeping room, this has up to 6 beds. The basement is cool and dark, making it good for late-sleeping teenagers.',
+    description: 'Ideal sleeping space for the kids. The basement is cool and dark, making it good for late-sleeping teenagers.',
     features: [
       '3 Double beds & 1 Single bed',
       '27" TV with DVD & VCR',

@@ -27,7 +27,7 @@ const Exterior: React.FC = () =>
       </CarouselPane>
 
       <CarouselPane image={images.outdoorTwilight}>
-        Dusk is the best time for spotting wildlife. Deer, rabbits— even bald eagles have been spotted!
+        Dusk is the best time for spotting wildlife. Deer, fox, rabbits, otters and bald eagles are regulars.
       </CarouselPane>
 
       <CarouselPane image={images.lakeKayaks1}>

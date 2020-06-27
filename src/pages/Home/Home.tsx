@@ -27,11 +27,11 @@ const Home: React.FC = () =>
     <FullWidthImage src={images.houseFront} alt="The front of the house during the day in summer" />
 
     <PagePadder>
-      The modern 4 ½ bath, 5-bedroom house (plus “bunkroom” and den) sleeps 12 comfortably with additional mattresses and sleeping bags available for overflow. The well-appointed cook’s kitchen has multiple refrigerators and dishwashers and several work areas to encourage group food prep!
+      The modern 4 ½ bath, 5-bedroom house (plus “bunkroom” and den) is limited to 8 guests (or 10 with pre-teen children). The well-stocked cook’s kitchen has multiple refrigerators and dishwashers and several work areas to encourage group food prep!
     </PagePadder>
 
     <FullWidthImage src={images.bedroom} alt="A bedroom looking very tidy" />
-  </div>
+  </div>;
 
 /** ======================== Exports ======================================= */
 export default Home;

@@ -22,12 +22,6 @@ const activities: { [key: string]: ActivityProps[] } = {
       name: 'Burlington Lake Monsters'
     },
     {
-      description: 'Rental fishing boats, sport boats, canoes, and kayaks. They also sell boats, rent slips, and have a small restaurant and bar.',
-      href: 'https://northheromarina.com/',
-      imgSrc: images.northHeroMarina,
-      name: 'North Hero Marina'
-    },
-    {
       description: 'Ben & Jerry’s factory tour is the number one tourist attraction in Vermont and a classic stop for kids. Located 1 hour away in Waterbury.',
       href: 'https://www.benjerry.com/about-us/factory-tours',
       imgSrc: images.benAndJerrys,
@@ -61,22 +55,28 @@ const activities: { [key: string]: ActivityProps[] } = {
       name: 'Blue Paddle'
     },
     {
-      description: 'Located in the center of North Hero village, on the shore of Lake Champlain just north of Hero’s Welcome. Pretty good food in an old road-house inn building which has been well updated.',
-      href: 'https://www.northherohouse.com/dining-wine/',
-      imgSrc: images.northHeroHouse,
-      name: 'North Hero House'
+      description: 'Thai and American food in a converted home in South Hero.',
+      href: 'https://victoriascafe.net/',
+      imgSrc: images.victoriasCafe,
+      name: 'Victoria\'s Cafe'
     },
     {
-      description: 'Situated on the shores of Lake Champlain on historic Isle La Motte, the Ruthcliffe Lodge commands a panoramic view of the Green Mountains of Vermont and, of course, the beautiful lake. It is accessible by both boat and car, and makes for a terrific lunch outing.',
-      href: 'http://www.ruthcliffe.com/restaurant/',
-      imgSrc: images.ruthcliffeLodge,
-      name: 'Ruthcliffe Lodge'
+      description: 'Located in the center of North Hero village, on the shore of Lake Champlain just north of Hero’s Welcome. Pretty good food in an old road-house inn building, with an outdoor bar and grill on a pier.',
+      href: 'https://www.northherohouse.com/https-www-northherohouse-com-dining-wine/steamship-pier-bar-grill-vermont-waterfront-restaurant/',
+      imgSrc: images.northHeroHouse,
+      name: 'North Hero House'
     },
     {
       description: 'Restaurant and hotel along the lake in North Hero. Outdoor dining available in warm weather.',
       href: 'https://www.shoreacres.com/restaurant/index.html',
       imgSrc: images.shoreAcres,
       name: 'Shore Acres'
+    },
+    {
+      description: 'Situated on the shores of Lake Champlain on historic Isle La Motte, the Ruthcliffe Lodge commands a panoramic view of the Green Mountains of Vermont and, of course, the beautiful lake. It is accessible by both boat and car, and makes for a terrific lunch outing.',
+      href: 'http://www.ruthcliffe.com/restaurant/',
+      imgSrc: images.ruthcliffeLodge,
+      name: 'Ruthcliffe Lodge'
     }
   ],
 
@@ -112,6 +112,12 @@ const activities: { [key: string]: ActivityProps[] } = {
       name: 'Keeler\'s Bay Variety'
     },
     {
+      description: 'Excellent homemade chocolates, candies, & pastries, plus espresso drinks.',
+      href: 'https://www.champlainislandscandylab.com/',
+      imgSrc: images.candyLab,
+      name: 'Champlain Islands Candy Lab'
+    },
+    {
       description: 'Full hardware and lumber center in South Hero. Fishing gear (rods, bait, tackle, etc.), fishing licenses and contour maps can also be found here.',
       href: 'https://www.facebook.com/pages/category/Hardware-Store/Robinson-Hardware-Inc-140528119317227/',
       name: 'Robinson Hardware'
@@ -138,7 +144,7 @@ const activities: { [key: string]: ActivityProps[] } = {
       name: 'St Albans Bay'
     },
     {
-      description: 'A gorgeous local park on the shores of Grand Isle, offering opportunities for camping, hiking, swimming, boating, fishing, biking, etc.',
+      description: 'A local park on the shores of Grand Isle, offering opportunities for camping, hiking, swimming, boating, fishing, biking, etc.',
       href: 'https://vtstateparks.com/grandisle.html',
       imgSrc: images.grandIsleSP,
       name: 'Grand Isle State Park'
