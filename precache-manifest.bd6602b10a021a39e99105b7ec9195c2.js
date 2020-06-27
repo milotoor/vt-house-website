@@ -1,31 +1,35 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "497de9b8ab8b34917f707dd8fb12872d",
+    "revision": "56df091d40d04a99324572352088a7ae",
     "url": "/vt-house-website/index.html"
   },
   {
-    "revision": "0a9d90a499390aaef24f",
-    "url": "/vt-house-website/static/css/2.238d9dba.chunk.css"
+    "revision": "5c4bfeca091d37be55cd",
+    "url": "/vt-house-website/static/css/2.f099a59d.chunk.css"
   },
   {
-    "revision": "940f5d13843b4dad8e3f",
-    "url": "/vt-house-website/static/css/main.045db47d.chunk.css"
+    "revision": "2214df98d2aeee72d44c",
+    "url": "/vt-house-website/static/css/main.dd69c0bd.chunk.css"
   },
   {
-    "revision": "0a9d90a499390aaef24f",
-    "url": "/vt-house-website/static/js/2.1cc6543e.chunk.js"
+    "revision": "5c4bfeca091d37be55cd",
+    "url": "/vt-house-website/static/js/2.60a5b9fe.chunk.js"
   },
   {
     "revision": "8173d28990b235181da60d8336e98f0b",
-    "url": "/vt-house-website/static/js/2.1cc6543e.chunk.js.LICENSE"
+    "url": "/vt-house-website/static/js/2.60a5b9fe.chunk.js.LICENSE"
   },
   {
-    "revision": "940f5d13843b4dad8e3f",
-    "url": "/vt-house-website/static/js/main.23956a0d.chunk.js"
+    "revision": "2214df98d2aeee72d44c",
+    "url": "/vt-house-website/static/js/main.fcffe153.chunk.js"
   },
   {
     "revision": "b6b98f77103b6c252b02",
     "url": "/vt-house-website/static/js/runtime-main.65caaacf.js"
+  },
+  {
+    "revision": "ecb0c2ae369ba2a89d9a1ec2a1b3187b",
+    "url": "/vt-house-website/static/media/Avenir-Book.ecb0c2ae.otf"
   },
   {
     "revision": "3e3b7e6e459d0d7c2e2a84c238c05d7e",
@@ -248,6 +252,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/vt-house-website/static/media/burton_island.6d82735c.jpg"
   },
   {
+    "revision": "a4fcb9c12a89be188d8826bb721c083b",
+    "url": "/vt-house-website/static/media/candy_lab.a4fcb9c1.jpg"
+  },
+  {
     "revision": "2d8d3ed16655823bc737c68d9681203f",
     "url": "/vt-house-website/static/media/cumberland_bay_sp.2d8d3ed1.jpg"
   },
@@ -264,8 +272,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/vt-house-website/static/media/hiking.4ad27922.jpg"
   },
   {
-    "revision": "999632273054b9bc6497fb1150b92e4f",
-    "url": "/vt-house-website/static/media/house_front.99963227.jpg"
+    "revision": "ee77d2be4cc88fd9c429423d0a7e93dc",
+    "url": "/vt-house-website/static/media/house_front.ee77d2be.jpg"
   },
   {
     "revision": "cae2ef0d6a1f583f5e208491980f291f",
@@ -348,7 +356,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/vt-house-website/static/media/twilight.62063897.jpg"
   },
   {
-    "revision": "2cc86dd4fcacb3f26c43d036199158d2",
-    "url": "/vt-house-website/static/media/winter_snow.2cc86dd4.jpg"
+    "revision": "e10d8fc056f7b4b8f215e737b37cc9a5",
+    "url": "/vt-house-website/static/media/victorias_cafe.e10d8fc0.jpg"
+  },
+  {
+    "revision": "7e0bebcf802619644b48822bbf7d7673",
+    "url": "/vt-house-website/static/media/winter_snow.7e0bebcf.jpg"
+  },
+  {
+    "revision": "115ec2dc5bb6c0f521189d716ac5a323",
+    "url": "/vt-house-website/static/media/yard_panorama.115ec2dc.jpg"
   }
 ]);
