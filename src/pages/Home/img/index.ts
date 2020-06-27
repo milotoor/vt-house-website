@@ -7,6 +7,7 @@ import kitchen from './resized/kitchen.jpg';
 import lakeSailboats from './resized/lake_sailboats.jpg';
 import twilight from './resized/twilight.jpg';
 import winterSnow from './resized/winter_snow.jpg';
+import yardPanorama from './resized/yard_panorama.jpg';
 
 export default {
   bedroom,
@@ -14,5 +15,6 @@ export default {
   kitchen,
   lakeSailboats,
   twilight,
-  winterSnow
+  winterSnow,
+  yardPanorama
 };

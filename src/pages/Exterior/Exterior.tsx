@@ -1,47 +1,44 @@
 import * as React from 'react';
-import { Carousel, Typography } from 'antd';
+import { Typography } from 'antd';
+
+import { FullWidthImage, PagePadder } from '../shared';
 import * as images from './img';
-import { FullWidthImage, ImageProps, PagePadder } from '../shared';
 import './Exterior.less';
 
 
 const { Paragraph } = Typography;
 
-/** ======================== Types ========================================= */
-type CarouselPaneProps = {
-  image: ImageProps
-};
-
 /** ======================== Components ==================================== */
-const CarouselPane: React.FC<CarouselPaneProps> = ({ children, image }) =>
-  <div className="carousel-pane">
-    <FullWidthImage {...image} />
-    <div className="pane-text">{children}</div>
-  </div>;
-
 const Exterior: React.FC = () =>
   <div>
-    <Carousel dotPosition="top" autoplay autoplaySpeed={10000}>
-      <CarouselPane image={images.backyardFallLeaves}>
-        The house is nestled among the trees on a gently sloping hillside with expansive views of Lake Champlain
-      </CarouselPane>
+    <FullWidthImage {...images.backyardFallLeaves} />
 
-      <CarouselPane image={images.outdoorTwilight}>
-        Dusk is the best time for spotting wildlife. Deer, fox, rabbits, otters and bald eagles are regulars.
-      </CarouselPane>
+    <PagePadder>
+      The house is nestled among the trees on a gently sloping hillside with expansive views of Lake Champlain
+    </PagePadder>
 
-      <CarouselPane image={images.lakeKayaks1}>
-        Several kayaks, a canoe and other water toys are available for use. Motorized boats can be rented from nearby marinas and parked in the boat lift— or bring your own!
-      </CarouselPane>
+    <FullWidthImage {...images.outdoorTwilight} />
 
-      <CarouselPane image={images.snowWalk}>
-        Snowy walks are a wonderful way to experience the quiet winter landscape. Warm yourself by the fireplace upon your return.
-      </CarouselPane>
+    <PagePadder>
+      Dusk is the best time for spotting wildlife. Deer, fox, rabbits, otters and bald eagles are regulars.
+    </PagePadder>
 
-      <CarouselPane image={images.lakeKayaks2}>
-        A swim float is anchored offshore— the perfect perch for a rest from swimming. The shoreline is shale, not sand so water shoes are a good idea.
-      </CarouselPane>
-    </Carousel>
+    <FullWidthImage {...images.lakeKayaks1} />
+
+    <PagePadder>
+      Several kayaks, a canoe and other water toys are available for use. Motorized boats can be rented from nearby marinas and parked in the boat lift— or bring your own!
+    </PagePadder>
+
+    <FullWidthImage {...images.snowWalk} />
+
+    <PagePadder>
+      Snowy walks are a wonderful way to experience the quiet winter landscape. Warm yourself by the fireplace upon your return.
+    </PagePadder>
+
+    <FullWidthImage {...images.lakeKayaks2} />
+    <PagePadder>
+      A swim float is anchored offshore— the perfect perch for a rest from swimming. The shoreline is shale, not sand so water shoes are a good idea.
+    </PagePadder>
 
     <PagePadder>
       <Typography>
