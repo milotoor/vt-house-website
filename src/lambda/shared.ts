@@ -14,7 +14,7 @@ export enum LAMBDA_ACTIONS {
   addReservation,
   deleteReservation,
   getReservations
-};
+}
 
 export type ReservationRecord = {
   end: string

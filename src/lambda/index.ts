@@ -6,7 +6,7 @@ import { LAMBDA_ACTIONS } from './shared';
 /**
  * Handles all incoming requests from the AWS Gateway API and delegates to
  * helper methods depending on the type of the request
- * 
+ *
  * @param event the event from the AWS Gateway API
  */
 export async function handler (event: APIGatewayEvent): Promise<APIGatewayProxyResult> {
@@ -22,14 +22,14 @@ export async function handler (event: APIGatewayEvent): Promise<APIGatewayProxyR
       responseBody = await addReservation(event);
       break;
     case LAMBDA_ACTIONS.getReservations:
-      responseBody = await getReservations();
+      responseBody = await getReservations(event);
       break;
     default:
       break;
   }
 
   return makeResponse(responseBody);
-};
+}
 
 function makeResponse (json: any) {
   return {
