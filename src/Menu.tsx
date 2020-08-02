@@ -15,17 +15,16 @@ const tabKeyByRoute: TabKeyMap = {
 };
 
 const tabAtPageLoad = (() => {
-  let pathname = window.location.pathname;
+  let { hash } = window.location;
 
   // In case there are any sub-routes, only concern ourselves with the path name up until
   // the second slash. The first character will always be the first slash.
-  let secondSlashIndex = pathname.indexOf('/', 1);
-  if (secondSlashIndex !== -1) {
-    pathname = pathname.slice(0, secondSlashIndex);
-  }
+  const hashRegex = /#(?<pageTopRoute>\/[^/]*)/;
+  const match = hash.match(hashRegex);
+  const pageName = match?.groups?.pageTopRoute;
 
-  if (Object.keys(tabKeyByRoute).includes(pathname)) {
-    return tabKeyByRoute[pathname];
+  if (pageName && Object.keys(tabKeyByRoute).includes(pageName)) {
+    return tabKeyByRoute[pageName];
   }
 
   // Couldn't match the current path, so assume it's the home page
