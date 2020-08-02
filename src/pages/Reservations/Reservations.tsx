@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Calendar, { CalendarTileProperties } from 'react-calendar';
 import { Col, Row, Typography } from 'antd';
 import moment from 'moment';
+import pickBy from 'lodash/pickBy';
 import some from 'lodash/some';
 
 import { LAMBDA_ACTIONS, ReservationRecord } from '../../lambda/shared';
@@ -22,6 +23,18 @@ interface DateSelectionProp {
   selectedDates: DateSelection
   reservations: Reservation[]
 }
+
+type QueryStringPrimitive = string | number;
+type QueryParamPair = [string, QueryStringPrimitive | QueryStringPrimitive[]];
+type QueryParams = {
+  [key: string]: unknown;
+};
+
+// This is meant to capture all values in JS that evaluate to `false` when passed through the
+// Boolean constructor. This is incomplete, and perhaps impossible to do with TypeScript because
+// there are some language values which types can't capture. For example, the type of `NaN` is
+// `number`, yet `Boolean(NaN) === false`.
+export type Falsey = false | 0 | '' | null | undefined;
 
 /** ======================== Helpers ======================================= */
 function dayIsReserved (reservations: Reservation[], date: Date) {
@@ -62,6 +75,76 @@ function fetchReservations () : Promise<ReservationRecord[]> {
   return fetch(uri).then(response => response.json());
 }
 
+/**
+ * Produces the querystring for a request, given an object representing the key-value pairs to
+ * include in the querystring.
+ *
+ * @param {QueryParams} params: the object of key-value pairs that should be converted into a
+ *   querystring
+ */
+export function makeQueryString (params?: QueryParams): string {
+  if (!params) return '';
+
+  const queryParamPairs: QueryParamPair[] = omitFalsey(Object.entries(params)
+    .map(([key, value]) => {
+      // Apply some basic validation on the `unknown` type
+      if (
+        typeof value === 'string' ||
+        typeof value === 'number' ||
+        Array.isArray(value)
+      ) {
+        return [key, value];
+      }
+
+      // Print a warning and return `null`. The `null` value will be removed by `omitFalsey`
+      console.warn(`Query parameter "${key}" received invalid value: ${value}`);
+      return null;
+    }));
+
+  // Reduce the array of pairs
+  const queryString = queryParamPairs
+    .map(([param, value]) => [param, encodeURIComponent(value.toString())].join('='))
+    .join('&');
+
+  return queryString.length === 0
+    ? ''
+    : `?${queryString}`;
+}
+
+/**
+ * Filters an array of values to non-falsey values
+ *
+ * @param {object} arr: the array to filter falsey values from
+ */
+function omitFalsey <T>(arr: Array<T | Falsey>): Array<T>;
+
+/**
+ * Takes an object of values and returns all of the key-value pairs in that object that aren't
+ * falsey
+ *
+ * @param {object} obj: the object to filter falsey values from
+ */
+function omitFalsey <T>(obj: Record<string, T | Falsey>): Record<string, T>;
+
+function omitFalsey (arrayOrObject: any) {
+  return Array.isArray(arrayOrObject)
+    ? arrayOrObject.filter(isTruthy)
+    : pickBy(arrayOrObject, isTruthy);
+}
+
+/**
+ * Type guard to check if an input is of type `T` or falsey
+ * @param x
+ */
+function isTruthy <T>(x: T | Falsey): x is T {
+  return Boolean(x);
+}
+
+function formatDateRange (selectedDates: Date[]) {
+  return `${formatDate(selectedDates[0])} — ${formatDate(selectedDates[1])}`;
+}
+
+
 /** ======================== Components ==================================== */
 const DateConfirmation: React.FC<DateSelectionProp> = ({ reservations, selectedDates }) => {
   if (selectedDates === null) return null;
@@ -73,7 +156,7 @@ const DateConfirmation: React.FC<DateSelectionProp> = ({ reservations, selectedD
   const alreadyReserved = some(reservationStatusByDay);
 
   // If any days have been reserved, print in red
-  const rangeDiv = <div>{formatDate(selectedDates[0])} &mdash; {formatDate(selectedDates[1])}</div>;
+  const rangeDiv = <div>{formatDateRange(selectedDates)}</div>;
   return alreadyReserved
     ? (
       <Text type="danger">
@@ -84,22 +167,35 @@ const DateConfirmation: React.FC<DateSelectionProp> = ({ reservations, selectedD
     : rangeDiv;
 };
 
-const RightColumn: React.FC<DateSelectionProp> = (props) =>
-  <Typography>
-    <Title level={3}>Thank you for your interest!</Title>
-    <Paragraph>
-      To make a reservation, please select the dates of interest and e-mail us at <a href="mailto:reservations@2or.net">reservations@2or.net</a>.
-    </Paragraph>
+const RightColumn: React.FC<DateSelectionProp> = (props) => {
+  const subject = 'Renting Champlain Haven';
+  const { selectedDates } = props;
+  const dates = selectedDates
+    ? ` (${formatDateRange(selectedDates)})`
+    : '';
 
-    <Paragraph>
-      <div><Text strong>Thank you,</Text></div>
-      <div><Text strong>John & Margaret Toor</Text></div>
-    </Paragraph>
+  const emailAddress = 'reservations@2or.net';
+  const queryString = makeQueryString({ subject: subject + dates });
 
-    <Paragraph>
-      <DateConfirmation {...props} />
-    </Paragraph>
-  </Typography>;
+  return (
+    <Typography>
+      <Title level={3}>Thank you for your interest!</Title>
+      <Paragraph>
+        To make a reservation, please select the dates of interest and e-mail us
+        at <a href={'mailto:' + emailAddress + queryString} rel="noreferrer noopener" target="_blank">{emailAddress}</a>.
+      </Paragraph>
+
+      <Paragraph>
+        <div><Text strong>Thank you,</Text></div>
+        <div><Text strong>John & Margaret Toor</Text></div>
+      </Paragraph>
+
+      <Paragraph>
+        <DateConfirmation {...props} />
+      </Paragraph>
+    </Typography>
+  );
+};
 
 const Availability: React.FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
