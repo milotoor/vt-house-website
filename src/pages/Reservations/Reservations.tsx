@@ -197,7 +197,7 @@ const RightColumn: React.FC<DateSelectionProp> = (props) => {
   );
 };
 
-const Availability: React.FC = () => {
+const Reservations: React.FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [selectedDates, setSelectedDates] = useState<DateSelection>(null);
 
@@ -247,4 +247,4 @@ const Availability: React.FC = () => {
 };
 
 /** ======================== Exports ======================================= */
-export default Availability;
+export default Reservations;
