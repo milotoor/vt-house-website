@@ -14,38 +14,46 @@ const Exterior: React.FC = () =>
     <FullWidthImage {...images.backyardFallLeaves} />
 
     <PagePadder>
-      The house is nestled among the trees on a gently sloping hillside with expansive views of Lake Champlain
+      <Paragraph>
+        The house is nestled among the trees on a gently sloping hillside with expansive views of Lake Champlain
+      </Paragraph>
     </PagePadder>
 
     <FullWidthImage {...images.outdoorTwilight} />
 
     <PagePadder>
-      Dusk is the best time for spotting wildlife. Deer, fox, rabbits, otters and bald eagles are regulars.
+      <Paragraph>
+        Dusk is the best time for spotting wildlife. Deer, fox, rabbits, otters and bald eagles are regulars.
+      </Paragraph>
     </PagePadder>
 
     <FullWidthImage {...images.lakeKayaks1} />
 
     <PagePadder>
-      Several kayaks, a canoe and other water toys are available for use. Motorized boats can be rented from nearby marinas and parked in the boat lift— or bring your own!
+      <Paragraph>
+        Several kayaks, a canoe and other water toys are available for use. Motorized boats can be rented from nearby marinas and parked in the boat lift— or bring your own!
+      </Paragraph>
     </PagePadder>
 
     <FullWidthImage {...images.snowWalk} />
 
     <PagePadder>
-      Snowy walks are a wonderful way to experience the quiet winter landscape. Warm yourself by the fireplace upon your return.
+      <Paragraph>
+        Snowy walks are a wonderful way to experience the quiet winter landscape. Warm yourself by the fireplace upon your return.
+      </Paragraph>
     </PagePadder>
 
     <FullWidthImage {...images.lakeKayaks2} />
     <PagePadder>
-      A swim float is anchored offshore— the perfect perch for a rest from swimming. The shoreline is shale, not sand so water shoes are a good idea.
+      <Paragraph>
+        A swim float is anchored offshore— the perfect perch for a rest from swimming. The shoreline is shale, not sand so water shoes are a good idea.
+      </Paragraph>
     </PagePadder>
 
     <PagePadder>
-      <Typography>
-        <Paragraph>
-          A large deck off the kitchen and screened porch has ample space for relaxation, reading and sunning. A deck runs the length of the house on the second floor as well with access from all rooms on the lake side of the house. The large meadow next to the house is ideal for baseball, bocce and has even been used for a family golf putting tournament!
-        </Paragraph>
-      </Typography>
+      <Paragraph>
+        A large deck off the kitchen and screened porch has ample space for relaxation, reading and sunning. A deck runs the length of the house on the second floor as well with access from all rooms on the lake side of the house. The large meadow next to the house is ideal for baseball, bocce and has even been used for a family golf putting tournament!
+      </Paragraph>
     </PagePadder>
   </div>;
 
