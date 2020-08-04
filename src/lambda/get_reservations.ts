@@ -1,11 +1,12 @@
 import { APIGatewayEvent } from 'aws-lambda';
 import { pick } from 'lodash';
-import { getDocumentClient, ReservationRecord, TABLE_NAME } from './shared';
+
+import { error, getDocumentClient, ReservationRecord, respond, TABLE_NAME } from './shared';
 
 
 export default async function getReservations (event: APIGatewayEvent) {
   // This check is redundant but serves as a typeguard
-  if (!event.queryStringParameters) return null;
+  if (!event.queryStringParameters) return respond(null);
   
   const response = await getDocumentClient()
     .scan(
@@ -19,7 +20,7 @@ export default async function getReservations (event: APIGatewayEvent) {
   
   // Extract the reservations. The basic version is the subset of data everyone can access
   const reservations = (response.Items || []) as ReservationRecord[];
-  const basicReservations = pick(reservations, ['start', 'end']);
+  const basicReservations = reservations.map(r => pick(r, ['start', 'end']));
   
   // Authenticate the user-- all users can access the start and end of the reservation, only admin
   // can access the rest of the reservation info
@@ -31,10 +32,14 @@ export default async function getReservations (event: APIGatewayEvent) {
   //   2. A secret was provided
   //   3. The secret and the password match
   //
-  // If any of these conditions aren't met, we respond with the basic version of reservation data
-  if (pw && secret && secret === pw) {
-    return reservations;
+  // If only (1) and (2) are met, we raise a 403 (HTTP forbidden) error because
+  // the user is attempting to access privileged information but is not
+  // providing the right password.
+  if (typeof pw !== 'undefined' && typeof secret !== 'undefined') {
+    return secret === pw
+      ? respond(reservations)
+      : error(403);
   } else {
-    return basicReservations;
+    return respond(basicReservations);
   }
 };

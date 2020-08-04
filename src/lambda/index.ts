@@ -1,7 +1,9 @@
 import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
+
 import addReservation from './add_reservation';
 import getReservations from './get_reservations';
-import { LAMBDA_ACTIONS } from './shared';
+import { error, LAMBDA_ACTIONS } from './shared';
+
 
 /**
  * Handles all incoming requests from the AWS Gateway API and delegates to
@@ -11,33 +13,16 @@ import { LAMBDA_ACTIONS } from './shared';
  */
 export async function handler (event: APIGatewayEvent): Promise<APIGatewayProxyResult> {
   if (!event.queryStringParameters || !event.queryStringParameters.type) {
-    return makeResponse('bad request');
+    return error(400);
   }
-
-  const { type } = event.queryStringParameters;
 
   let responseBody = null;
-  switch (parseInt(type)) {
+  switch (parseInt(event.queryStringParameters.type)) {
     case LAMBDA_ACTIONS.addReservation:
-      responseBody = await addReservation(event);
-      break;
+      return responseBody = await addReservation(event);
     case LAMBDA_ACTIONS.getReservations:
-      responseBody = await getReservations(event);
-      break;
+      return responseBody = await getReservations(event);
     default:
-      break;
+      return error(400);
   }
-
-  return makeResponse(responseBody);
-}
-
-function makeResponse (json: any) {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(json),
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    }
-  };
 }

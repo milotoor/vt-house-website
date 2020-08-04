@@ -1,11 +1,13 @@
 import { APIGatewayEvent } from 'aws-lambda';
 import moment from 'moment';
 import uuid from 'node-uuid';
-import { getDocumentClient, ReservationRecord, TABLE_NAME } from './shared';
+
+import { error, getDocumentClient, ReservationRecord, respond, TABLE_NAME } from './shared';
+
 
 export default async function addReservation (event: APIGatewayEvent) {
   // This check is redundant but serves as a typeguard
-  if (!event.queryStringParameters) return null;
+  if (!event.queryStringParameters) return respond(null);
 
   // Make a connection to the DynamoDB table
   const docClient = getDocumentClient();
@@ -15,7 +17,7 @@ export default async function addReservation (event: APIGatewayEvent) {
 
   // Validate that the start and end are dates
   if (!moment(start).isValid() || !moment(end).isValid()) {
-    return 'bad request';
+    return error(400);
   }
 
   const item: ReservationRecord = {
@@ -39,5 +41,5 @@ export default async function addReservation (event: APIGatewayEvent) {
     }
   }).promise();
 
-  return 'success';
+  return respond('success');
 };
