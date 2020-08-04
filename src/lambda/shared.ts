@@ -17,10 +17,11 @@ export enum LAMBDA_ACTIONS {
 }
 
 export type ReservationRecord = {
-  end: string
-  id: string
-  name: string
-  start: string
+  end: string;
+  id: string;
+  name: string;
+  notes?: string;
+  start: string;
 };
 
 /** ======================== Response utils ================================= */

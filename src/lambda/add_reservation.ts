@@ -13,10 +13,10 @@ export default async function addReservation (event: APIGatewayEvent) {
   const docClient = getDocumentClient();
 
   // Grab relevant request parameters
-  const { name, start, end } = event.queryStringParameters;
+  const { end, name, notes, start } = event.queryStringParameters;
 
   // Validate that the start and end are dates
-  if (!moment(start).isValid() || !moment(end).isValid()) {
+  if (!start || !end || !moment(start).isValid() || !moment(end).isValid()) {
     return error(400);
   }
 
@@ -24,6 +24,7 @@ export default async function addReservation (event: APIGatewayEvent) {
     end,
     id: uuid.v4(),
     name,
+    notes,
     start
   };
 

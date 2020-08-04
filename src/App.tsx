@@ -46,6 +46,9 @@ const App: React.FC = () =>
               <Route path={routes.reservations}>
                 <Pages.Reservations />
               </Route>
+              <Route path={routes.admin}>
+                <Pages.Admin />
+              </Route>
               <Route path={routes.home}>
                 <Pages.Home />
               </Route>

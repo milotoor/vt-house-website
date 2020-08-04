@@ -1,4 +1,5 @@
 
+export const admin = '/admin';
 export const home = '/';
 export const exterior = '/exterior';
 export const interior = {
