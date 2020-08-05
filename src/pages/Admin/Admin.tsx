@@ -23,6 +23,7 @@ const { Title } = Typography;
 
 /** ======================== Types ========================================= */
 type NewReservationFormProps = {
+  clearDates: () => void;
   reservations: BasicReservation[];
   selectedDates: DateRange;
 };
@@ -52,7 +53,7 @@ const AdminContext = React.createContext<AdminContext>({
 });
 
 /** ======================== Components ==================================== */
-const NewReservationForm: React.FC<NewReservationFormProps> = ({ reservations, selectedDates }) => {
+const NewReservationForm: React.FC<NewReservationFormProps> = ({ clearDates, reservations, selectedDates }) => {
   const { addReservation, secret } = React.useContext(AdminContext);
   return (
     <>
@@ -97,6 +98,7 @@ const NewReservationForm: React.FC<NewReservationFormProps> = ({ reservations, s
 
     const reservation = await makeReservation(secret, reservationProperties);
     addReservation(reservation);
+    clearDates();
   }
 };
 
@@ -204,7 +206,11 @@ const Admin: React.FC = () => {
 
               <Col span={12}>
                 {selectedDates &&
-                  <NewReservationForm reservations={reservations} selectedDates={selectedDates} />
+                  <NewReservationForm
+                    clearDates={() => setSelectedDates(undefined)}
+                    reservations={reservations}
+                    selectedDates={selectedDates}
+                  />
                 }
               </Col>
             </Row>
