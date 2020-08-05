@@ -57,6 +57,17 @@ export function makeReservation (secret: string, reservation: Omit<Reservation, 
   return fetch(uri).then(response => response.json());
 }
 
+export function deleteReservation (secret: string, reservation: Reservation) {
+  const uri = getLambdaURI({
+    id: reservation.id,
+    secret,
+    type: LAMBDA_ACTIONS.deleteReservation,
+  });
+
+  // Make a request to AWS
+  return fetch(uri).then(response => response.json());
+}
+
 /**
  * Returns `true` if the given date occurs in any of the date-ranges specified
  * by the `reservations`
