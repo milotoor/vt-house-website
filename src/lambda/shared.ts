@@ -11,9 +11,9 @@ export function getDocumentClient () {
 export const TABLE_NAME = 'vt_reservations';
 
 export enum LAMBDA_ACTIONS {
-  addReservation,
-  deleteReservation,
-  getReservations
+  addReservation = 'add',
+  deleteReservation = 'delete',
+  getReservations = 'get'
 }
 
 export type ReservationRecord = {

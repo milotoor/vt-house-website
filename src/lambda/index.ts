@@ -1,6 +1,7 @@
 import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 import addReservation from './add_reservation';
+import deleteReservation from './delete_reservation';
 import getReservations from './get_reservations';
 import { error, LAMBDA_ACTIONS } from './shared';
 
@@ -16,12 +17,13 @@ export async function handler (event: APIGatewayEvent): Promise<APIGatewayProxyR
     return error(400);
   }
 
-  let responseBody = null;
-  switch (parseInt(event.queryStringParameters.type)) {
+  switch (event.queryStringParameters.type) {
     case LAMBDA_ACTIONS.addReservation:
-      return responseBody = await addReservation(event);
+      return await addReservation(event);
+    case LAMBDA_ACTIONS.deleteReservation:
+      return await deleteReservation(event);
     case LAMBDA_ACTIONS.getReservations:
-      return responseBody = await getReservations(event);
+      return await getReservations(event);
     default:
       return error(400);
   }
