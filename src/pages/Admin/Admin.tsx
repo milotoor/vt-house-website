@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { Alert, Button, Card, Col, Form, Input, Modal, Row, Typography } from 'antd';
 import orderBy from 'lodash/orderBy';
+import partition from 'lodash/partition';
 import without from 'lodash/without';
 
 import {
@@ -36,6 +37,11 @@ type DeleteReservationModalProps = {
   closeModal: () => void;
   open: boolean;
   reservation: Reservation;
+};
+
+type ReservationSectionProps = {
+  reservations: Reservation[];
+  title: string;
 };
 
 type ReservationCallback = (r: Reservation) => void;
@@ -135,13 +141,14 @@ const DeleteReservationModal: React.FC<DeleteReservationModalProps> = ({ closeMo
       removeReservation(reservation);
     } catch (e) {
       setLoading(false);
+      setError(true);
     }
   }
 };
 
 const ReservationCard: React.FC<ReservationCardProps> = ({ reservation }) => {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState();
-  const dateRange = formatDateRange([reservation.start.toDate(), reservation.end.toDate()]);
+  const dateRange = formatDateRange([reservation.start.toDate(), reservation.end.toDate()], true);
   return (
     <>
       <Card
@@ -175,11 +182,24 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation }) => {
   }
 };
 
+const ReservationSection: React.FC<ReservationSectionProps> = ({ reservations, title }) => {
+  return (
+    <div className="existing-reservations">
+      <Title level={4}>{title}</Title>
+      {reservations.map(r => <ReservationCard key={r.id} reservation={r} />)}
+      {reservations.length === 0 && 'None.'}
+    </div>
+  );
+};
+
 const Admin: React.FC = () => {
   const [loadState, setLoadState] = useState({ error: false, loaded: false, loading: false });
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [selectedDates, setSelectedDates] = useState<DateRange>();
   const [secret, setSecret] = useState('');
+
+  const today = moment();
+  const [futures, pasts] = partition(reservations, r => r.end.isSameOrAfter(today));
 
   return (
     <AdminContext.Provider value={{ addReservation, removeReservation, secret }}>
@@ -215,11 +235,8 @@ const Admin: React.FC = () => {
               </Col>
             </Row>
 
-            <div className="existing-reservations">
-              <Title level={4}>Reservations</Title>
-              {reservations.map(r => <ReservationCard key={r.id} reservation={r} />)}
-              {reservations.length === 0 && 'None.'}
-            </div>
+            <ReservationSection reservations={futures} title="Upcoming Reservations" />
+            <ReservationSection reservations={pasts} title="Past Reservations" />
           </>
         }
       </PagePadder>
