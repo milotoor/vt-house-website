@@ -235,8 +235,8 @@ const Admin: React.FC = () => {
               </Col>
             </Row>
 
-            <ReservationSection reservations={futures} title="Upcoming Reservations" />
-            <ReservationSection reservations={pasts} title="Past Reservations" />
+            <ReservationSection reservations={orderReservations(futures, 'asc')} title="Upcoming Reservations" />
+            <ReservationSection reservations={orderReservations(pasts, 'desc')} title="Past Reservations" />
           </>
         }
       </PagePadder>
@@ -244,8 +244,8 @@ const Admin: React.FC = () => {
   );
 
   /** ======================== Helpers ====================================== */
-  function orderReservations (reservations: Reservation[]) {
-    setReservations(orderBy(reservations, 'start', 'desc'));
+  function orderReservations (reservations: Reservation[], dir: 'asc' | 'desc') {
+    return orderBy(reservations, 'start', dir);
   }
 
   /** ======================== Callbacks ==================================== */
@@ -258,14 +258,14 @@ const Admin: React.FC = () => {
 
       // Update state with the results
       setLoadState({ error: false, loading: false, loaded: true });
-      orderReservations(reservations);
+      setReservations(reservations);
     } catch (e) {
       setLoadState({ error: true, loading: false, loaded: false });
     }
   }
 
   function addReservation (reservation: Reservation) {
-    orderReservations([...reservations, reservation]);
+    setReservations([...reservations, reservation]);
   }
 
   function removeReservation (reservation: Reservation) {
