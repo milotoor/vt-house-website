@@ -59,16 +59,7 @@ const Reservations: React.FC = () => {
   const [selectedDates, setSelectedDates] = useState<DateRange>();
 
   useEffect(() => {
-    // Query for dates that have been reserved
-    fetchReservations()
-      .then((results: ReservationRecord[]) => {
-        setReservations(results.map(({ start, end }) => {
-          return {
-            start: moment(start),
-            end: moment(end)
-          };
-        }));
-      });
+    fetchReservations().then(setReservations);
   }, []);
 
   return (

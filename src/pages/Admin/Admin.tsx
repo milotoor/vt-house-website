@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { Alert, Button, Card, Col, Form, Input, Modal, Row, Typography } from 'antd';
+import orderBy from 'lodash/orderBy';
 import without from 'lodash/without';
 
 import {
@@ -36,20 +37,23 @@ type DeleteReservationModalProps = {
   reservation: Reservation;
 };
 
+type ReservationCallback = (r: Reservation) => void;
 type AdminContext = {
-  removeReservation: (r: Reservation) => void;
+  addReservation: ReservationCallback;
+  removeReservation: ReservationCallback;
   secret: string;
 };
 
 /** ======================== Context ======================================= */
 const AdminContext = React.createContext<AdminContext>({
+  addReservation: () => {},
   removeReservation: () => {},
   secret: ''
 });
 
 /** ======================== Components ==================================== */
 const NewReservationForm: React.FC<NewReservationFormProps> = ({ reservations, selectedDates }) => {
-  const { secret } = React.useContext(AdminContext);
+  const { addReservation, secret } = React.useContext(AdminContext);
   return (
     <>
       <Form
@@ -84,12 +88,15 @@ const NewReservationForm: React.FC<NewReservationFormProps> = ({ reservations, s
 
   /** ======================== Callbacks ==================================== */
   async function onSubmit (values: { [name: string]: string }) {
-    makeReservation(secret, {
+    const reservationProperties = {
       name: values.name,
       notes: values.notes,
       start: moment(selectedDates[0]),
       end: moment(selectedDates[1])
-    });
+    };
+
+    const reservation = await makeReservation(secret, reservationProperties);
+    addReservation(reservation);
   }
 };
 
@@ -173,7 +180,7 @@ const Admin: React.FC = () => {
   const [secret, setSecret] = useState('');
 
   return (
-    <AdminContext.Provider value={{ removeReservation, secret }}>
+    <AdminContext.Provider value={{ addReservation, removeReservation, secret }}>
       <PagePadder id="admin-page">
         <div className="admin-secret">
           <Form layout="inline" onFinish={loadReservations}>
@@ -212,27 +219,29 @@ const Admin: React.FC = () => {
     </AdminContext.Provider>
   );
 
+  /** ======================== Helpers ====================================== */
+  function orderReservations (reservations: Reservation[]) {
+    setReservations(orderBy(reservations, 'start', 'desc'));
+  }
+
   /** ======================== Callbacks ==================================== */
   async function loadReservations () {
     setLoadState({ ...loadState, loading: true });
 
     try {
       // Query for dates that have been reserved
-      const results = await fetchReservations(secret);
+      const reservations = await fetchReservations(secret);
 
       // Update state with the results
       setLoadState({ error: false, loading: false, loaded: true });
-      setReservations(results.map(
-        ({ id, name, start, end }) => ({
-          end: moment(end),
-          id,
-          name,
-          start: moment(start)
-        })
-      ));
+      orderReservations(reservations);
     } catch (e) {
       setLoadState({ error: true, loading: false, loaded: false });
     }
+  }
+
+  function addReservation (reservation: Reservation) {
+    orderReservations([...reservations, reservation]);
   }
 
   function removeReservation (reservation: Reservation) {

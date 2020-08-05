@@ -33,17 +33,18 @@ function getLambdaURI (queryParams?: QueryParams) {
 /**
  * Queries for dates that have been reserved
  */
-export function fetchReservations (secret?: string) : Promise<ReservationRecord[]> {
+export async function fetchReservations (secret?: string) {
   const uri = getLambdaURI({
     secret,
     type: LAMBDA_ACTIONS.getReservations
   });
 
   // Make a request to AWS
-  return fetch(uri).then(response => response.json());
+  const rawReservations: ReservationRecord[] = await fetch(uri).then(response => response.json());
+  return rawReservations.map(parseReservation);
 }
 
-export function makeReservation (secret: string, reservation: Omit<Reservation, 'id'>) {
+export async function makeReservation (secret: string, reservation: Omit<Reservation, 'id'>) {
   const uri = getLambdaURI({
     end: reservation.end.toISOString(),
     name: reservation.name,
@@ -54,7 +55,8 @@ export function makeReservation (secret: string, reservation: Omit<Reservation, 
   });
 
   // Make a request to AWS
-  return fetch(uri).then(response => response.json());
+  const rawReservation = await fetch(uri).then(response => response.json());
+  return parseReservation(rawReservation);
 }
 
 export function deleteReservation (secret: string, reservation: Reservation) {
@@ -77,6 +79,14 @@ export function dayIsReserved (reservations: BasicReservation[], date: Date) {
   return some(reservations.map(({ start, end }) =>
     start.isSameOrBefore(momentDate) && end.isSameOrAfter(momentDate)
   ));
+}
+
+function parseReservation (rawReservation: ReservationRecord): Reservation {
+  return {
+    ...rawReservation,
+    end: moment(rawReservation.end),
+    start: moment(rawReservation.start)
+  }
 }
 
 /**

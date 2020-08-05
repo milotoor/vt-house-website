@@ -33,14 +33,13 @@ export default async function addReservation (event: APIGatewayEvent) {
     Item: item
   };
 
-  console.log('Adding a new item...');
-  await docClient.put(params, function(err) {
-    if (err) {
-      console.error('Unable to add item. Error JSON:', JSON.stringify(err, null, 2));
-    } else {
-      console.log('Added item:', JSON.stringify(item, null, 2));
-    }
-  }).promise();
-
-  return respond('success');
+  try {
+    console.log('Adding a new item...');
+    await docClient.put(params).promise();
+    console.log('Added item:', JSON.stringify(item, null, 2));
+    return respond(item);
+  } catch (e) {
+    console.error('Unable to add item. Error JSON:', JSON.stringify(e, null, 2));
+    return error(400);
+  }
 };
