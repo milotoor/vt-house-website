@@ -99,8 +99,20 @@ function formatDate (date: Date) {
 /**
  * Formats a rage of dates
  */
-export function formatDateRange (selectedDates: Date[]) {
-  return `${formatDate(selectedDates[0])} — ${formatDate(selectedDates[1])}`;
+export function formatDateRange (selectedDates: Date[], showYear: boolean = false) {
+  const [date1, date2] = selectedDates;
+  const [formatted1, formatted2] = selectedDates.map(formatDate);
+
+  if (!showYear) {
+    return `${formatted1} — ${formatted2}`;
+  }
+
+  // If both dates are in the same year, just print the year after both dates
+  if (date1.getFullYear() === date2.getFullYear()) {
+    return `${formatted1} — ${formatted2}, ${date1.getFullYear()}`;
+  } else {
+    return `${formatted1}, ${date1.getFullYear()} — ${formatted2}, ${date2.getFullYear()}`;
+  }
 }
 
 /**
