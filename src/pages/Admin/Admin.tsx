@@ -212,6 +212,7 @@ const Admin: React.FC = () => {
             <div className="existing-reservations">
               <Title level={4}>Reservations</Title>
               {reservations.map(r => <ReservationCard key={r.id} reservation={r} />)}
+              {reservations.length === 0 && 'None.'}
             </div>
           </>
         }
