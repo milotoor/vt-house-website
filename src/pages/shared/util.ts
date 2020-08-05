@@ -19,7 +19,7 @@ type QueryParams = {
 // `number`, yet `Boolean(NaN) === false`.
 type Falsey = false | 0 | '' | null | undefined;
 
-/** ======================== Methods ======================================= */
+/** ======================== API Methods =================================== */
 function getLambdaURI (queryParams?: QueryParams) {
   const apiId = process.env.REACT_APP_API_ID;
   const apiRegion = process.env.REACT_APP_API_REGION;
@@ -70,6 +70,23 @@ export function deleteReservation (secret: string, reservation: Reservation) {
   return fetch(uri).then(response => response.json());
 }
 
+export async function editReservation (secret: string, reservation: Reservation) {
+  const uri = getLambdaURI({
+    end: reservation.end.toISOString(),
+    id: reservation.id,
+    name: reservation.name,
+    notes: reservation.notes,
+    secret,
+    start: reservation.start.toISOString(),
+    type: LAMBDA_ACTIONS.editReservation,
+  });
+
+  // Make a request to AWS
+  const rawReservation = await fetch(uri).then(response => response.json());
+  return parseReservation(rawReservation);
+}
+
+/** ======================== Miscellaneous ================================= */
 /**
  * Returns `true` if the given date occurs in any of the date-ranges specified
  * by the `reservations`

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { Alert, Button, Card, Col, Form, Input, Modal, Row, Typography } from 'antd';
+import findIndex from 'lodash/findIndex';
 import orderBy from 'lodash/orderBy';
 import partition from 'lodash/partition';
 import without from 'lodash/without';
@@ -11,6 +12,7 @@ import {
   DateConfirmation,
   DateRange,
   deleteReservation,
+  editReservation,
   fetchReservations,
   formatDateRange,
   makeReservation,
@@ -24,8 +26,8 @@ const { Title } = Typography;
 
 /** ======================== Types ========================================= */
 type NewReservationFormProps = {
-  clearDates: () => void;
-  reservations: BasicReservation[];
+  clearDates?: () => void;
+  reservation?: Reservation;
   selectedDates: DateRange;
 };
 
@@ -33,7 +35,7 @@ type ReservationCardProps = {
   reservation: Reservation;
 };
 
-type DeleteReservationModalProps = {
+type ModalProps = {
   closeModal: () => void;
   open: boolean;
   reservation: Reservation;
@@ -48,19 +50,23 @@ type ReservationCallback = (r: Reservation) => void;
 type AdminContext = {
   addReservation: ReservationCallback;
   removeReservation: ReservationCallback;
+  reservations: Reservation[];
   secret: string;
+  updateReservation: ReservationCallback;
 };
 
 /** ======================== Context ======================================= */
 const AdminContext = React.createContext<AdminContext>({
   addReservation: () => {},
   removeReservation: () => {},
-  secret: ''
+  reservations: [],
+  secret: '',
+  updateReservation: () => {}
 });
 
 /** ======================== Components ==================================== */
-const NewReservationForm: React.FC<NewReservationFormProps> = ({ clearDates, reservations, selectedDates }) => {
-  const { addReservation, secret } = React.useContext(AdminContext);
+const NewReservationForm: React.FC<NewReservationFormProps> = ({ clearDates, reservation, selectedDates }) => {
+  const { addReservation, reservations, secret } = React.useContext(AdminContext);
   return (
     <>
       <Form
@@ -68,6 +74,11 @@ const NewReservationForm: React.FC<NewReservationFormProps> = ({ clearDates, res
         layout="horizontal"
         onFinish={onSubmit}
         wrapperCol={{ span: 20 }}
+        initialValues={
+          reservation
+            ? { name: reservation.name, notes: reservation.notes }
+            : {}
+        }
       >
         <Form.Item label="Dates">
           <DateConfirmation reservations={reservations} selectedDates={selectedDates} />
@@ -86,7 +97,7 @@ const NewReservationForm: React.FC<NewReservationFormProps> = ({ clearDates, res
 
         <Form.Item wrapperCol={{ span: 20, offset: 4 }}>
           <Button type="primary" htmlType="submit">
-            Submit
+            Save
           </Button>
         </Form.Item>
       </Form>
@@ -104,11 +115,11 @@ const NewReservationForm: React.FC<NewReservationFormProps> = ({ clearDates, res
 
     const reservation = await makeReservation(secret, reservationProperties);
     addReservation(reservation);
-    clearDates();
+    clearDates && clearDates();
   }
 };
 
-const DeleteReservationModal: React.FC<DeleteReservationModalProps> = ({ closeModal, open, reservation }) => {
+const DeleteReservationModal: React.FC<ModalProps> = ({ closeModal, open, reservation }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
   const { removeReservation, secret } = React.useContext(AdminContext);
@@ -146,8 +157,49 @@ const DeleteReservationModal: React.FC<DeleteReservationModalProps> = ({ closeMo
   }
 };
 
+const EditReservationModal: React.FC<ModalProps> = ({ closeModal, open, reservation }) => {
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [selectedDates, setSelectedDates] = useState<DateRange>([reservation.start.toDate(), reservation.end.toDate()]);
+  const { reservations, secret, updateReservation } = React.useContext(AdminContext);
+
+  return (
+    <Modal
+      confirmLoading={loading}
+      onCancel={closeModal}
+      onOk={confirmEdit}
+      title={`Edit ${reservation.name}`}
+      visible={open}
+    >
+      <NewReservationForm reservation={reservation} selectedDates={selectedDates} />
+      {error &&
+        <Alert
+          message="Edit failed"
+          description="Check the browser console/AWS logs for details..."
+          type="error"
+        />
+      }
+    </Modal>
+  );
+
+  async function confirmEdit () {
+    setLoading(true);
+
+    try {
+      await editReservation(secret, reservation);
+      closeModal();
+      updateReservation(reservation);
+    } catch (e) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  }
+};
+
 const ReservationCard: React.FC<ReservationCardProps> = ({ reservation }) => {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState();
+  const [editModalOpen, setEditModalOpen] = React.useState();
   const dateRange = formatDateRange([reservation.start.toDate(), reservation.end.toDate()], true);
   return (
     <>
@@ -169,6 +221,12 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation }) => {
         open={deleteModalOpen}
         reservation={reservation}
       />
+
+      <EditReservationModal
+        closeModal={() => setEditModalOpen(false)}
+        open={editModalOpen}
+        reservation={reservation}
+      />
     </>
   );
 
@@ -178,7 +236,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation }) => {
   }
 
   function editReservation () {
-
+    setEditModalOpen(true);
   }
 };
 
@@ -202,7 +260,7 @@ const Admin: React.FC = () => {
   const [futures, pasts] = partition(reservations, r => r.end.isSameOrAfter(today));
 
   return (
-    <AdminContext.Provider value={{ addReservation, removeReservation, secret }}>
+    <AdminContext.Provider value={{ addReservation, removeReservation, reservations, secret, updateReservation }}>
       <PagePadder id="admin-page">
         <div className="admin-secret">
           <Form layout="inline" onFinish={loadReservations}>
@@ -226,19 +284,19 @@ const Admin: React.FC = () => {
 
               <Col className="new-reservation-form" span={12}>
                 {selectedDates
-                  ? (
-                    <NewReservationForm
-                      clearDates={() => setSelectedDates(undefined)}
-                      reservations={reservations}
-                      selectedDates={selectedDates}
-                    />
-                  ) : 'Select a date range from the calendar to make a reservation'
+                  ? <NewReservationForm clearDates={() => setSelectedDates(undefined)} selectedDates={selectedDates} />
+                  : 'Select a date range from the calendar to make a reservation'
                 }
               </Col>
             </Row>
 
             <ReservationSection reservations={orderReservations(futures, 'asc')} title="Upcoming Reservations" />
-            <ReservationSection reservations={orderReservations(pasts, 'desc')} title="Past Reservations" />
+
+            {
+              // Don't render the "past reservations" sections if there aren't any
+              pasts.length > 0 &&
+                <ReservationSection reservations={orderReservations(pasts, 'desc')} title="Past Reservations" />
+            }
           </>
         }
       </PagePadder>
@@ -272,6 +330,13 @@ const Admin: React.FC = () => {
 
   function removeReservation (reservation: Reservation) {
     setReservations(without(reservations, reservation));
+  }
+
+  function updateReservation (reservation: Reservation) {
+    const index = findIndex(reservations, { id: reservation.id });
+    const newReservations = [...reservations];
+    newReservations.splice(index, 1, reservation);
+    setReservations(newReservations);
   }
 };
 
