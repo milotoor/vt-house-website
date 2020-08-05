@@ -224,13 +224,15 @@ const Admin: React.FC = () => {
                 <Calendar onChange={setSelectedDates} reservations={reservations} />
               </Col>
 
-              <Col span={12}>
-                {selectedDates &&
-                  <NewReservationForm
-                    clearDates={() => setSelectedDates(undefined)}
-                    reservations={reservations}
-                    selectedDates={selectedDates}
-                  />
+              <Col className="new-reservation-form" span={12}>
+                {selectedDates
+                  ? (
+                    <NewReservationForm
+                      clearDates={() => setSelectedDates(undefined)}
+                      reservations={reservations}
+                      selectedDates={selectedDates}
+                    />
+                  ) : 'Select a date range from the calendar to make a reservation'
                 }
               </Col>
             </Row>
