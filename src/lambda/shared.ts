@@ -13,6 +13,7 @@ export const TABLE_NAME = 'vt_reservations';
 export enum LAMBDA_ACTIONS {
   addReservation = 'add',
   deleteReservation = 'delete',
+  editReservation = 'edit',
   getReservations = 'get'
 }
 
