@@ -57,6 +57,6 @@ const App: React.FC = () =>
         </Content>
       </Layout>
     </Layout>
-  </Router>;
+  </Router>;;
 
 export default App;
