@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row, Typography } from 'antd';
-import moment from 'moment';
 
-import { ReservationRecord } from '../lambda/shared';
 import {
-  BasicReservation,
   Calendar,
   DateConfirmation,
   DateRange,
-  fetchReservations,
   formatDateRange,
   makeQueryString,
-  PagePadder
+  PagePadder,
+  ReservationManager,
+  useReservationManager
 } from './shared';
 
 
@@ -20,7 +18,7 @@ const { Paragraph, Text, Title } = Typography;
 /** ======================== Types ========================================= */
 type RightColumnProps = {
   selectedDates?: DateRange;
-  reservations: BasicReservation[];
+  reservations: ReservationManager;
 };
 
 /** ======================== Components ==================================== */
@@ -55,12 +53,12 @@ const RightColumn: React.FC<RightColumnProps> = (props) => {
 };
 
 const Reservations: React.FC = () => {
-  const [reservations, setReservations] = useState<BasicReservation[]>([]);
+  const reservations = useReservationManager();
   const [selectedDates, setSelectedDates] = useState<DateRange>();
 
   useEffect(() => {
-    fetchReservations().then(setReservations);
-  }, []);
+    reservations.fetch();
+  }, [reservations]);
 
   return (
     <PagePadder>

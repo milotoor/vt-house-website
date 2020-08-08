@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { Alert, Button, Card, Col, Form, Input, Modal, Row, Typography } from 'antd';
-import findIndex from 'lodash/findIndex';
 import orderBy from 'lodash/orderBy';
 import partition from 'lodash/partition';
-import without from 'lodash/without';
 
 import {
-  BasicReservation,
   Calendar,
   DateConfirmation,
   DateRange,
-  deleteReservation,
-  editReservation,
-  fetchReservations,
   formatDateRange,
-  makeReservation,
   PagePadder,
-  Reservation
+  Reservation,
+  ReservationManager,
+  useReservationManager
 } from '../shared';
 import './Admin.less';
 
@@ -46,27 +41,18 @@ type ReservationSectionProps = {
   title: string;
 };
 
-type ReservationCallback = (r: Reservation) => void;
 type AdminContext = {
-  addReservation: ReservationCallback;
-  removeReservation: ReservationCallback;
-  reservations: Reservation[];
-  secret: string;
-  updateReservation: ReservationCallback;
+  reservations: ReservationManager;
 };
 
 /** ======================== Context ======================================= */
 const AdminContext = React.createContext<AdminContext>({
-  addReservation: () => {},
-  removeReservation: () => {},
-  reservations: [],
-  secret: '',
-  updateReservation: () => {}
+  reservations: new ReservationManager()
 });
 
 /** ======================== Components ==================================== */
 const NewReservationForm: React.FC<NewReservationFormProps> = ({ clearDates, reservation, selectedDates }) => {
-  const { addReservation, reservations, secret } = React.useContext(AdminContext);
+  const { reservations } = React.useContext(AdminContext);
   return (
     <>
       <Form
@@ -113,8 +99,7 @@ const NewReservationForm: React.FC<NewReservationFormProps> = ({ clearDates, res
       end: moment(selectedDates[1])
     };
 
-    const reservation = await makeReservation(secret, reservationProperties);
-    addReservation(reservation);
+    await reservations.create(reservationProperties);
     clearDates && clearDates();
   }
 };
@@ -122,7 +107,7 @@ const NewReservationForm: React.FC<NewReservationFormProps> = ({ clearDates, res
 const DeleteReservationModal: React.FC<ModalProps> = ({ closeModal, open, reservation }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
-  const { removeReservation, secret } = React.useContext(AdminContext);
+  const { reservations } = React.useContext(AdminContext);
   return (
     <Modal
       title={`Delete ${reservation.name}`}
@@ -147,9 +132,8 @@ const DeleteReservationModal: React.FC<ModalProps> = ({ closeModal, open, reserv
     setLoading(true);
 
     try {
-      await deleteReservation(secret, reservation);
+      await reservations.delete(reservation);
       closeModal();
-      removeReservation(reservation);
     } catch (e) {
       setLoading(false);
       setError(true);
@@ -161,7 +145,7 @@ const EditReservationModal: React.FC<ModalProps> = ({ closeModal, open, reservat
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [selectedDates, setSelectedDates] = useState<DateRange>([reservation.start.toDate(), reservation.end.toDate()]);
-  const { reservations, secret, updateReservation } = React.useContext(AdminContext);
+  const { reservations } = React.useContext(AdminContext);
 
   return (
     <Modal
@@ -186,9 +170,8 @@ const EditReservationModal: React.FC<ModalProps> = ({ closeModal, open, reservat
     setLoading(true);
 
     try {
-      await editReservation(secret, reservation);
+      await reservations.update(reservation);
       closeModal();
-      updateReservation(reservation);
     } catch (e) {
       setError(true);
     } finally {
@@ -252,20 +235,19 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({ reservations, t
 
 const Admin: React.FC = () => {
   const [loadState, setLoadState] = useState({ error: false, loaded: false, loading: false });
-  const [reservations, setReservations] = useState<Reservation[]>([]);
   const [selectedDates, setSelectedDates] = useState<DateRange>();
-  const [secret, setSecret] = useState('');
+  const reservations = useReservationManager();
 
   const today = moment();
   const [futures, pasts] = partition(reservations, r => r.end.isSameOrAfter(today));
 
   return (
-    <AdminContext.Provider value={{ addReservation, removeReservation, reservations, secret, updateReservation }}>
+    <AdminContext.Provider value={{ reservations }}>
       <PagePadder id="admin-page">
         <div className="admin-secret">
           <Form layout="inline" onFinish={loadReservations}>
             <Form.Item label="Pass code">
-              <Input.Password onChange={e => setSecret(e.target.value)} />
+              <Input.Password onChange={e => reservations.setSecret(e.target.value)} />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit">
@@ -314,29 +296,11 @@ const Admin: React.FC = () => {
 
     try {
       // Query for dates that have been reserved
-      const reservations = await fetchReservations(secret);
-
-      // Update state with the results
+      await reservations.fetch();
       setLoadState({ error: false, loading: false, loaded: true });
-      setReservations(reservations);
     } catch (e) {
       setLoadState({ error: true, loading: false, loaded: false });
     }
-  }
-
-  function addReservation (reservation: Reservation) {
-    setReservations([...reservations, reservation]);
-  }
-
-  function removeReservation (reservation: Reservation) {
-    setReservations(without(reservations, reservation));
-  }
-
-  function updateReservation (reservation: Reservation) {
-    const index = findIndex(reservations, { id: reservation.id });
-    const newReservations = [...reservations];
-    newReservations.splice(index, 1, reservation);
-    setReservations(newReservations);
   }
 };
 
