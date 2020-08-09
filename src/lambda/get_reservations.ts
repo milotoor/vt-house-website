@@ -1,7 +1,8 @@
 import { APIGatewayEvent } from 'aws-lambda';
 import { pick } from 'lodash';
 
-import { error, getDocumentClient, ReservationRecord, respond, TABLE_NAME } from './shared';
+import { ReservationRecord } from '../shared';
+import { error, getDocumentClient, respond, TABLE_NAME } from './shared';
 
 
 export default async function getReservations (event: APIGatewayEvent) {

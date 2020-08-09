@@ -2,7 +2,8 @@ import { APIGatewayEvent } from 'aws-lambda';
 import moment from 'moment';
 import uuid from 'node-uuid';
 
-import { error, getDocumentClient, ReservationRecord, respond, TABLE_NAME } from './shared';
+import { ReservationRecord } from '../shared';
+import { error, getDocumentClient, respond, TABLE_NAME } from './shared';
 
 
 export default async function addReservation (event: APIGatewayEvent) {
