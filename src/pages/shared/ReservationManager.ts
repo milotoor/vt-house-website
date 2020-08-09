@@ -69,7 +69,7 @@ export class ReservationManager extends Array<Reservation> {
     });
 
     // Make a request to AWS
-    const rawReservation = await fetch(uri).then(response => response.json());
+    const rawReservation: ReservationRecord = await fetch(uri).then(response => response.json());
     this.push(parseReservation(rawReservation));
   }
 
@@ -107,7 +107,7 @@ export class ReservationManager extends Array<Reservation> {
     });
 
     // Make a request to AWS
-    const rawReservation = await fetch(uri).then(response => response.json());
+    const rawReservation: ReservationRecord = await fetch(uri).then(response => response.json());
     this.splice(findIndex(this, { id: reservation.id }), 1, parseReservation(rawReservation));
   }
 
