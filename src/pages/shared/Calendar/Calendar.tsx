@@ -51,7 +51,7 @@ export const Calendar: React.FC<CalendarProps> = ({ onChange, reservations }) =>
     </div>
   );
 
-  /** ======================== Callbacks ==================================== */
+  /** ====================== Callbacks ====================================== */
   function tileIsDisabled (props: CalendarTileProperties) {
     const isPast = today.isSameOrAfter(props.date, 'day');
     const isFullyBooked = reservations.isFullyBooked(props.date);
@@ -61,7 +61,7 @@ export const Calendar: React.FC<CalendarProps> = ({ onChange, reservations }) =>
 
   function getTileClassname (props: CalendarTileProperties) {
     const date = moment(props.date);
-    return classNames('calendar-day', {
+    return classNames({
       end: reservations.ends(date),
       booked: reservations.isFullyBooked(props.date),
       start: reservations.starts(date),
@@ -90,7 +90,7 @@ export const DateConfirmation: React.FC<DateConfirmationProps> = ({ reservations
     )
     : rangeDiv;
 
-  /** ======================== Callbacks ==================================== */
+  /** ====================== Callbacks ====================================== */
   function enumerateDateRange (startDate: Date, endDate: Date): Date[] {
     const dates = [];
 

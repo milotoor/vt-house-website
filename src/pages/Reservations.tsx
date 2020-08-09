@@ -37,7 +37,8 @@ const RightColumn: React.FC<RightColumnProps> = (props) => {
       <Title level={3}>Thank you for your interest!</Title>
       <Paragraph>
         To make a reservation, please select the dates of interest and e-mail us
-        at <a href={'mailto:' + emailAddress + queryString} rel="noreferrer noopener" target="_blank">{emailAddress}</a>.
+        at <a href={getEmail()} rel="noreferrer noopener" target="_blank">{emailAddress}</a>. Available dates are shown
+        in white.
       </Paragraph>
 
       <Paragraph>
@@ -50,6 +51,11 @@ const RightColumn: React.FC<RightColumnProps> = (props) => {
       </Paragraph>
     </Typography>
   );
+
+  /** ======================== Helpers ===================================== */
+  function getEmail () {
+    return 'mailto:' + emailAddress + queryString;
+  }
 };
 
 const Reservations: React.FC = () => {
