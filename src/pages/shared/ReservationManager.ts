@@ -183,7 +183,7 @@ function getLambdaURI (queryParams?: QueryParams) {
   const apiId = process.env.REACT_APP_API_ID;
   const apiRegion = process.env.REACT_APP_API_REGION;
   const apiStageName = process.env.REACT_APP_API_STAGE_NAME;
-  const apiAgentName = 'vtDatabaseCRUDAgent';
+  const apiAgentName = process.env.REACT_APP_API_AGENT_NAME;
   const queryString = makeQueryString(queryParams);
 
   return `https://${apiId}.execute-api.${apiRegion}.amazonaws.com/${apiStageName}/${apiAgentName}${queryString}`;
