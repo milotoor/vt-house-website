@@ -216,8 +216,5 @@ export function useReservationManager () {
  */
 function useForceRerender () {
   const [arbitraryState, setArbitraryState] = useState(0);
-  return () => {
-    console.log('re-rendering');
-    setArbitraryState(arbitraryState + 1);
-  }
+  return () => setArbitraryState(arbitraryState + 1);
 }
