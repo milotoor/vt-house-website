@@ -5,7 +5,7 @@ import moment from 'moment';
 import onChange from 'on-change';
 import { useState } from 'react';
 
-import { LAMBDA_ACTIONS, ReservationRecord } from '../../shared';
+import { LAMBDA_ACTIONS, ReservationRecord } from '../../lambda/shared';
 import { Reservation, QueryParams } from './types';
 import { makeQueryString } from './util';
 
