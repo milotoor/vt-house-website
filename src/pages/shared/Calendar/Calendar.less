@@ -1,0 +1,71 @@
+/** ======================== Variables ===================================== */
+@triangle-width: 348px / 14;
+@triangle-height: 42px / 2;
+@reservation-color: #ddd;
+@reservation-active-color: #006edc;
+@text-color: rgba(0, 0, 0, 0.65);
+
+/** ======================== Styles ======================================== */
+.calendar-container {
+  width: 350px;
+  box-shadow: 0 15px 15px 0 rgba(16, 36, 94, 0.2);
+
+  .react-calendar__tile {
+    position: relative;
+    z-index: 0;
+
+    &:disabled, &.booked {
+      background-color: @reservation-color;
+      color: @text-color;
+    }
+
+    &.start {
+      .triangle.late {
+        border-bottom: @triangle-height solid @reservation-color;
+        border-right : @triangle-width  solid @reservation-color;
+      }
+    }
+
+    &.end {
+      .triangle.early {
+        border-top : @triangle-height solid @reservation-color;
+        border-left: @triangle-width  solid @reservation-color;
+      }
+    }
+
+    .triangle {
+      z-index: -1;
+      position: absolute;
+      border-top   : @triangle-height solid transparent;
+      border-left  : @triangle-width  solid transparent;
+      border-bottom: @triangle-height solid transparent;
+      border-right : @triangle-width  solid transparent;
+
+      &.early {
+        top: 0;
+        left: 0;
+      }
+
+      &.late {
+        bottom: 0;
+        right: 0;
+      }
+    }
+  }
+
+  // Calendar style overrides
+  .react-calendar--selectRange {
+    .react-calendar__tile--hover:enabled, .react-calendar__tile--active {
+      background: @reservation-active-color;
+      color: white;
+    }
+  }
+
+  .react-calendar__tile--active:enabled:focus:not(:hover) {
+    background: @reservation-active-color;
+  }
+
+  .react-calendar__month-view__days__day--weekend:not(.react-calendar__tile--active) {
+    color: @text-color;
+  }
+}

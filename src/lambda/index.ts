@@ -1,9 +1,10 @@
 import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
 
+import { LAMBDA_ACTIONS } from '../shared';
 import addReservation from './add_reservation';
 import deleteReservation from './delete_reservation';
 import getReservations from './get_reservations';
-import { error, LAMBDA_ACTIONS } from './shared';
+import { error} from './shared';
 
 
 /**

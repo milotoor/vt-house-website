@@ -1,4 +1,3 @@
-
 import aws from 'aws-sdk';
 
 
@@ -9,21 +8,6 @@ export function getDocumentClient () {
 }
 
 export const TABLE_NAME = 'vt_reservations';
-
-export enum LAMBDA_ACTIONS {
-  addReservation = 'add',
-  deleteReservation = 'delete',
-  editReservation = 'edit',
-  getReservations = 'get'
-}
-
-export type ReservationRecord = {
-  end: string;
-  id: string;
-  name: string;
-  notes?: string;
-  start: string;
-};
 
 /** ======================== Response utils ================================= */
 const headers = {

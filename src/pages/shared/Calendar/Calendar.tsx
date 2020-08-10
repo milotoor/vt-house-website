@@ -1,11 +1,14 @@
+import { Typography } from 'antd';
+import classNames from 'classnames';
+import some from 'lodash/some';
+import moment from 'moment';
 import React from 'react';
 import ReactCalendar, { CalendarTileProperties } from 'react-calendar';
-import moment from 'moment';
-import some from 'lodash/some';
-import { Typography } from 'antd';
 
-import { BasicReservation, DateRange } from './types';
-import { dayIsReserved, formatDateRange } from './util';
+import { ReservationManager } from '../ReservationManager';
+import { DateRange } from '../types';
+import { formatDateRange} from '../util';
+import './Calendar.less';
 
 
 const { Text } = Typography;
@@ -13,19 +16,18 @@ const { Text } = Typography;
 /** ======================== Types ========================================== */
 type CalendarProps = {
   onChange: (dates: [Date, Date]) => void;
-  reservations: BasicReservation[];
+  reservations: ReservationManager;
 };
 
 type DateConfirmationProps = {
   selectedDates?: DateRange;
-  reservations: BasicReservation[];
+  reservations: ReservationManager;
 };
 
 /** ======================== Components ===================================== */
 export const Calendar: React.FC<CalendarProps> = ({ onChange, reservations }) => {
-  // Moment object representing today. Used in the `tileIsDisabled` function.
-  // It's initialized here so we don't re-create it for every day of the month.
   const today = moment();
+  const tomorrow = moment().add(1, 'day');
 
   return (
     <div className="calendar-container">
@@ -34,23 +36,37 @@ export const Calendar: React.FC<CalendarProps> = ({ onChange, reservations }) =>
         onChange={dates => onChange(dates as [Date, Date])}
         selectRange
         showNeighboringMonth
+        tileContent={
+          // The triangles are used to render the first- and second-half of the
+          // calendar days. They are used to indicate when a reservation begins
+          // or ends
+          <>
+            <div className="triangle early" />
+            <div className="triangle late" />
+          </>
+        }
+        tileClassName={getTileClassname}
         tileDisabled={tileIsDisabled}
       />
     </div>
   );
 
-  /** ====================== Helpers ======================================== */
-  function dayIsReserved (reservations: BasicReservation[], date: Date) {
-    const momentDate = moment(date);
-    return some(reservations.map(({ start, end }) =>
-      start.isSameOrBefore(momentDate) && end.isSameOrAfter(momentDate)
-    ));
+  /** ====================== Callbacks ====================================== */
+  function tileIsDisabled (props: CalendarTileProperties) {
+    const isPast = today.isSameOrAfter(props.date, 'day');
+    const isFullyBooked = reservations.isFullyBooked(props.date);
+    const isTomorrow = tomorrow.isSame(props.date, 'day');
+    return isPast || isFullyBooked || (isTomorrow && reservations.starts(tomorrow));
   }
 
-  /** ======================== Callbacks ==================================== */
-  function tileIsDisabled (props: CalendarTileProperties) {
-    const isPast = moment(props.date).isBefore(today);
-    return isPast || dayIsReserved(reservations, props.date);
+  function getTileClassname (props: CalendarTileProperties) {
+    const date = moment(props.date);
+    return classNames({
+      end: reservations.ends(date),
+      booked: reservations.isFullyBooked(props.date),
+      start: reservations.starts(date),
+      tomorrow: tomorrow.isSame(date, 'day')
+    });
   }
 };
 
@@ -60,7 +76,7 @@ export const DateConfirmation: React.FC<DateConfirmationProps> = ({ reservations
   // Confirm that none of the given dates are already reserved
   const [start, end] = selectedDates;
   const dateRange = enumerateDateRange(start, end);
-  const reservationStatusByDay = dateRange.map(date => dayIsReserved(reservations, date));
+  const reservationStatusByDay = dateRange.map(date => reservations.isFullyBooked(date));
   const alreadyReserved = some(reservationStatusByDay);
 
   // If any days have been reserved, print in red
@@ -74,7 +90,7 @@ export const DateConfirmation: React.FC<DateConfirmationProps> = ({ reservations
     )
     : rangeDiv;
 
-  /** ======================== Callbacks ==================================== */
+  /** ====================== Callbacks ====================================== */
   function enumerateDateRange (startDate: Date, endDate: Date): Date[] {
     const dates = [];
 
