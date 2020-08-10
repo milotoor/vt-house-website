@@ -54,26 +54,6 @@ export class ReservationManager extends Array<Reservation> {
   }
 
   /**
-   * Creates a new reservation
-   *
-   * @param {Reservation} reservation: the new reservation's parameters
-   */
-  async create (reservation: Omit<Reservation, 'id'>) {
-    const uri = getLambdaURI({
-      end: reservation.end.toISOString(),
-      name: reservation.name,
-      notes: reservation.notes,
-      secret: this._secret,
-      start: reservation.start.toISOString(),
-      type: LAMBDA_ACTIONS.addReservation
-    });
-
-    // Make a request to AWS
-    const rawReservation: ReservationRecord = await fetch(uri).then(response => response.json());
-    this.push(parseReservation(rawReservation));
-  }
-
-  /**
    * Deletes an existing reservation
    *
    * @param {Reservation} reservation: the reservation to delete
@@ -91,11 +71,11 @@ export class ReservationManager extends Array<Reservation> {
   }
 
   /**
-   * Updates an existing reservation
+   * Updates an existing reservation, or creates a new one if no ID is provided
    *
    * @param {Reservation} reservation: the new parameters of the reservation
    */
-  async update (reservation: Reservation) {
+  async update (reservation: Omit<Reservation, 'id'> & { id?: string }) {
     const uri = getLambdaURI({
       end: reservation.end.toISOString(),
       id: reservation.id,
@@ -103,12 +83,21 @@ export class ReservationManager extends Array<Reservation> {
       notes: reservation.notes,
       secret: this._secret,
       start: reservation.start.toISOString(),
-      type: LAMBDA_ACTIONS.editReservation,
+      type: LAMBDA_ACTIONS.updateReservation,
     });
 
     // Make a request to AWS
     const rawReservation: ReservationRecord = await fetch(uri).then(response => response.json());
-    this.splice(findIndex(this, { id: reservation.id }), 1, parseReservation(rawReservation));
+    const parsed = parseReservation(rawReservation);
+
+    if (reservation.id) {
+      // If an ID was provided, splice the record in for the old one with the
+      // same ID
+      this.splice(findIndex(this, { id: reservation.id }), 1, parsed);
+    } else {
+      // Otherwise, push the new reservation to the back of the list
+      this.push(parsed);
+    }
   }
 
   /** ====================== Date methods ================================== */

@@ -98,7 +98,7 @@ const EditReservationForm: React.FC<EditReservationFormProps> = ({ clearDates, r
       end: moment(selectedDates[1])
     };
 
-    await reservations.create(reservationProperties);
+    await reservations.update({ ...(reservation || {}), ...reservationProperties });
     clearDates && clearDates();
   }
 };
