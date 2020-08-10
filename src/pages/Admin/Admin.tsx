@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import moment from 'moment';
 import { Alert, Button, Card, Col, Form, Input, Modal, Row, Typography } from 'antd';
+import { FormInstance } from 'antd/lib/form';
 import orderBy from 'lodash/orderBy';
 import partition from 'lodash/partition';
+import moment from 'moment';
+import * as React from 'react';
 
 import {
   Calendar,
@@ -20,6 +21,7 @@ import './Admin.less';
 const { Title } = Typography;
 
 /** ======================== Types ========================================= */
+type EditReservationFormProps = {
   clearDates?: () => void;
   reservation?: Reservation;
   selectedDates: DateRange;
@@ -50,58 +52,67 @@ const AdminContext = React.createContext<AdminContext>({
 });
 
 /** ======================== Components ==================================== */
-const EditReservationForm: React.FC<EditReservationFormProps> = ({ clearDates, reservation, selectedDates }) => {
-  const { reservations } = React.useContext(AdminContext);
-  return (
-    <>
-      <Form
-        labelCol={{ span: 4 }}
-        layout="horizontal"
-        onFinish={onSubmit}
-        wrapperCol={{ span: 20 }}
-        initialValues={
-          reservation
-            ? { name: reservation.name, notes: reservation.notes }
-            : {}
-        }
-      >
-        <Form.Item label="Dates">
-          <DateConfirmation reservations={reservations} selectedDates={selectedDates} />
-        </Form.Item>
-        <Form.Item
-          label="Name"
-          name="name"
-          rules={[{ required: true, message: 'A name is required' }]}
+const EditReservationForm = React.forwardRef<FormInstance, EditReservationFormProps>(
+  (props, ref) => {
+    const { clearDates, reservation, selectedDates } = props;
+    const { reservations } = React.useContext(AdminContext);
+
+    // Create a form instance and expose it with `useImperativeHandle`. This
+    // allows parent components to pass a ref to this component and then
+    // imperatively submit the form. Imperative code is a bit of a React anti-
+    // pattern, but it simplifies things in this case.
+    //
+    // See more here:
+    //   https://reactjs.org/docs/hooks-reference.html#useimperativehandle
+    const [form] = Form.useForm();
+    React.useImperativeHandle(ref, () => form);
+
+    return (
+      <>
+        <Form
+          form={form}
+          labelCol={{ span: 4 }}
+          layout="horizontal"
+          onFinish={onSubmit}
+          wrapperCol={{ span: 20 }}
+          initialValues={
+            reservation
+              ? { name: reservation.name, notes: reservation.notes }
+              : {}
+          }
         >
-          <Input />
-        </Form.Item>
+          <Form.Item label="Dates">
+            <DateConfirmation reservations={reservations} selectedDates={selectedDates} />
+          </Form.Item>
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: 'A name is required' }]}
+          >
+            <Input />
+          </Form.Item>
 
-        <Form.Item label="Notes" name="notes">
-          <Input.TextArea rows={4} />
-        </Form.Item>
+          <Form.Item label="Notes" name="notes">
+            <Input.TextArea rows={4} />
+          </Form.Item>
+        </Form>
+      </>
+    );
 
-        <Form.Item wrapperCol={{ span: 20, offset: 4 }}>
-          <Button type="primary" htmlType="submit">
-            Save
-          </Button>
-        </Form.Item>
-      </Form>
-    </>
-  );
+    /** ======================== Callbacks ==================================== */
+    async function onSubmit (values: { [name: string]: string }) {
+      const reservationProperties = {
+        name: values.name,
+        notes: values.notes,
+        start: moment(selectedDates[0]),
+        end: moment(selectedDates[1])
+      };
 
-  /** ======================== Callbacks ==================================== */
-  async function onSubmit (values: { [name: string]: string }) {
-    const reservationProperties = {
-      name: values.name,
-      notes: values.notes,
-      start: moment(selectedDates[0]),
-      end: moment(selectedDates[1])
-    };
-
-    await reservations.update({ ...(reservation || {}), ...reservationProperties });
-    clearDates && clearDates();
+      await reservations.update({ ...(reservation || {}), ...reservationProperties });
+      clearDates && clearDates();
+    }
   }
-};
+);
 
 const DeleteReservationModal: React.FC<ModalProps> = ({ closeModal, open, reservation }) => {
   const [loading, setLoading] = React.useState(false);
@@ -141,41 +152,23 @@ const DeleteReservationModal: React.FC<ModalProps> = ({ closeModal, open, reserv
 };
 
 const EditReservationModal: React.FC<ModalProps> = ({ closeModal, open, reservation }) => {
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState(false);
-  const [selectedDates, setSelectedDates] = useState<DateRange>([reservation.start.toDate(), reservation.end.toDate()]);
-  const { reservations } = React.useContext(AdminContext);
+  const [selectedDates, setSelectedDates] = React.useState<DateRange>([reservation.start.toDate(), reservation.end.toDate()]);
+  const formRef = React.useRef<FormInstance>(null);
 
   return (
     <Modal
-      confirmLoading={loading}
       onCancel={closeModal}
       onOk={confirmEdit}
       title={`Edit ${reservation.name}`}
       visible={open}
     >
-      <EditReservationForm reservation={reservation} selectedDates={selectedDates} />
-      {error &&
-        <Alert
-          message="Edit failed"
-          description="Check the browser console/AWS logs for details..."
-          type="error"
-        />
-      }
+      <EditReservationForm ref={formRef} reservation={reservation} selectedDates={selectedDates} />
     </Modal>
   );
 
   async function confirmEdit () {
-    setLoading(true);
-
-    try {
-      await reservations.update(reservation);
-      closeModal();
-    } catch (e) {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
+    formRef.current?.submit();
+    closeModal();
   }
 };
 
@@ -233,9 +226,10 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({ reservations, t
 };
 
 const Admin: React.FC = () => {
-  const [loadState, setLoadState] = useState({ error: false, loaded: false, loading: false });
-  const [selectedDates, setSelectedDates] = useState<DateRange>();
+  const [loadState, setLoadState] = React.useState({ error: false, loaded: false, loading: false });
+  const [selectedDates, setSelectedDates] = React.useState<DateRange>();
   const reservations = useReservationManager();
+  const formRef = React.useRef<FormInstance>(null);
 
   const today = moment();
   const [futures, pasts] = partition(reservations, r => r.end.isSameOrAfter(today));
@@ -265,8 +259,20 @@ const Admin: React.FC = () => {
 
               <Col className="new-reservation-form" span={12}>
                 {selectedDates
-                  ? <EditReservationForm clearDates={() => setSelectedDates(undefined)} selectedDates={selectedDates} />
-                  : 'Select a date range from the calendar to make a reservation'
+                  ? (
+                    <>
+                      <EditReservationForm
+                        ref={formRef}
+                        clearDates={() => setSelectedDates(undefined)}
+                        selectedDates={selectedDates}
+                      />
+                      <Row>
+                        <Col span={20} offset={4}>
+                          <Button onClick={handleSubmit} type="primary">Save</Button>
+                        </Col>
+                      </Row>
+                    </>
+                  ) : 'Select a date range from the calendar to make a reservation'
                 }
               </Col>
             </Row>
@@ -300,6 +306,13 @@ const Admin: React.FC = () => {
     } catch (e) {
       setLoadState({ error: true, loading: false, loaded: false });
     }
+  }
+
+  /**
+   * Imperatively submits the "New Reservation" form
+   */
+  function handleSubmit () {
+    formRef.current?.submit();
   }
 };
 
