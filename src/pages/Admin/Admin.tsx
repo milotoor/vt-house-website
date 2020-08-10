@@ -20,7 +20,6 @@ import './Admin.less';
 const { Title } = Typography;
 
 /** ======================== Types ========================================= */
-type NewReservationFormProps = {
   clearDates?: () => void;
   reservation?: Reservation;
   selectedDates: DateRange;
@@ -51,7 +50,7 @@ const AdminContext = React.createContext<AdminContext>({
 });
 
 /** ======================== Components ==================================== */
-const NewReservationForm: React.FC<NewReservationFormProps> = ({ clearDates, reservation, selectedDates }) => {
+const EditReservationForm: React.FC<EditReservationFormProps> = ({ clearDates, reservation, selectedDates }) => {
   const { reservations } = React.useContext(AdminContext);
   return (
     <>
@@ -155,7 +154,7 @@ const EditReservationModal: React.FC<ModalProps> = ({ closeModal, open, reservat
       title={`Edit ${reservation.name}`}
       visible={open}
     >
-      <NewReservationForm reservation={reservation} selectedDates={selectedDates} />
+      <EditReservationForm reservation={reservation} selectedDates={selectedDates} />
       {error &&
         <Alert
           message="Edit failed"
@@ -266,7 +265,7 @@ const Admin: React.FC = () => {
 
               <Col className="new-reservation-form" span={12}>
                 {selectedDates
-                  ? <NewReservationForm clearDates={() => setSelectedDates(undefined)} selectedDates={selectedDates} />
+                  ? <EditReservationForm clearDates={() => setSelectedDates(undefined)} selectedDates={selectedDates} />
                   : 'Select a date range from the calendar to make a reservation'
                 }
               </Col>
