@@ -207,7 +207,7 @@ export function useReservationManager () {
   // This leverages the Proxy API and monitors the reservation manager.
   // Whenever the reservations change (i.e. a reservation is added/removed
   // from the array, or a reservation property is changed), a re-render occurs
-  return onChange(reservations, () => forceRerender(), { ignoreUnderscores: true });
+  return onChange(reservations, forceRerender, { ignoreUnderscores: true });
 }
 
 /**
