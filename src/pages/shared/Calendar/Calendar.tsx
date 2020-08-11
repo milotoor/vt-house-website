@@ -2,7 +2,7 @@ import { Typography } from 'antd';
 import classNames from 'classnames';
 import some from 'lodash/some';
 import moment from 'moment';
-import React from 'react';
+import * as React from 'react';
 import ReactCalendar, { CalendarTileProperties } from 'react-calendar';
 import ReactDatePicker from 'react-date-picker';
 

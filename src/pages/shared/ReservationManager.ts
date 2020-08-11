@@ -3,7 +3,7 @@ import map from 'lodash/map';
 import some from 'lodash/some';
 import moment from 'moment';
 import onChange from 'on-change';
-import { useState } from 'react';
+import * as React from 'react';
 
 import { LAMBDA_ACTIONS, ReservationRecord } from '../../lambda/shared';
 import { Reservation, QueryParams } from './types';
@@ -191,7 +191,7 @@ function getLambdaURI (queryParams?: QueryParams) {
  */
 export function useReservationManager () {
   const forceRerender = useForceRerender();
-  const [reservations,] = useState(new ReservationManager());
+  const [reservations,] = React.useState(new ReservationManager());
 
   // This leverages the Proxy API and monitors the reservation manager.
   // Whenever the reservations change (i.e. a reservation is added/removed
@@ -204,6 +204,6 @@ export function useReservationManager () {
  * value that has no purpose but to trigger re-renders
  */
 function useForceRerender () {
-  const [arbitraryState, setArbitraryState] = useState(0);
+  const [arbitraryState, setArbitraryState] = React.useState(0);
   return () => setArbitraryState(arbitraryState + 1);
 }
