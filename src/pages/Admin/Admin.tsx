@@ -173,8 +173,8 @@ const EditReservationModal: React.FC<ModalProps> = ({ closeModal, open, reservat
 };
 
 const ReservationCard: React.FC<ReservationCardProps> = ({ reservation }) => {
-  const [deleteModalOpen, setDeleteModalOpen] = React.useState();
-  const [editModalOpen, setEditModalOpen] = React.useState();
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState<boolean>(false);
+  const [editModalOpen, setEditModalOpen] = React.useState<boolean>(false);
   const dateRange = formatDateRange([reservation.start.toDate(), reservation.end.toDate()], true);
   return (
     <>
