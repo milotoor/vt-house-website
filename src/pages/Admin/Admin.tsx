@@ -8,6 +8,7 @@ import * as React from 'react';
 import {
   Calendar,
   DateConfirmation,
+  DatePicker,
   DateRange,
   formatDateRange,
   PagePadder,
@@ -25,6 +26,7 @@ type EditReservationFormProps = {
   clearDates?: () => void;
   reservation?: Reservation;
   selectedDates: DateRange;
+  setSelectedDates: (dates: DateRange) => void;
 };
 
 type ReservationCardProps = {
@@ -53,8 +55,8 @@ const AdminContext = React.createContext<AdminContext>({
 
 /** ======================== Components ==================================== */
 const EditReservationForm = React.forwardRef<FormInstance, EditReservationFormProps>(
-  (props, ref) => {
-    const { clearDates, reservation, selectedDates } = props;
+  function EditReservationForm (props, ref) {
+    const { clearDates, reservation, selectedDates, setSelectedDates } = props;
     const { reservations } = React.useContext(AdminContext);
 
     // Create a form instance and expose it with `useImperativeHandle`. This
@@ -75,14 +77,26 @@ const EditReservationForm = React.forwardRef<FormInstance, EditReservationFormPr
           layout="horizontal"
           onFinish={onSubmit}
           wrapperCol={{ span: 20 }}
-          initialValues={
-            reservation
-              ? { name: reservation.name, notes: reservation.notes }
-              : {}
-          }
+          initialValues={{
+            end: selectedDates[1],
+            name: reservation?.name || '',
+            notes: reservation?.notes || '',
+            start: selectedDates[0],
+          }}
         >
-          <Form.Item label="Dates">
-            <DateConfirmation reservations={reservations} selectedDates={selectedDates} />
+          <Form.Item label="Start" name="start">
+            <DatePicker
+              onChange={d => setSelectedDates([d, selectedDates[1]])}
+              reservations={reservations}
+              value={selectedDates[0]}
+            />
+          </Form.Item>
+          <Form.Item label="End" name="end">
+            <DatePicker
+              onChange={d => setSelectedDates([selectedDates[0], d])}
+              reservations={reservations}
+              value={selectedDates[1]}
+            />
           </Form.Item>
           <Form.Item
             label="Name"
@@ -152,22 +166,33 @@ const DeleteReservationModal: React.FC<ModalProps> = ({ closeModal, open, reserv
 };
 
 const EditReservationModal: React.FC<ModalProps> = ({ closeModal, open, reservation }) => {
-  const [selectedDates, setSelectedDates] = React.useState<DateRange>([reservation.start.toDate(), reservation.end.toDate()]);
   const formRef = React.useRef<FormInstance>(null);
+  const [selectedDates, setSelectedDates] =
+    React.useState<DateRange>([reservation.start.toDate(), reservation.end.toDate()]);
 
   return (
     <Modal
-      onCancel={closeModal}
+      onCancel={cancel}
       onOk={confirmEdit}
       title={`Edit ${reservation.name}`}
       visible={open}
     >
-      <EditReservationForm ref={formRef} reservation={reservation} selectedDates={selectedDates} />
+      <EditReservationForm
+        ref={formRef}
+        reservation={reservation}
+        selectedDates={selectedDates}
+        setSelectedDates={setSelectedDates}
+      />
     </Modal>
   );
 
-  async function confirmEdit () {
+  function confirmEdit () {
     formRef.current?.submit();
+    closeModal();
+  }
+
+  function cancel () {
+    formRef.current?.resetFields();
     closeModal();
   }
 };
@@ -265,6 +290,7 @@ const Admin: React.FC = () => {
                         ref={formRef}
                         clearDates={() => setSelectedDates(undefined)}
                         selectedDates={selectedDates}
+                        setSelectedDates={setSelectedDates}
                       />
                       <Row>
                         <Col span={20} offset={4}>
