@@ -1,8 +1,8 @@
-import React, { HTMLAttributes } from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 
 
-type PagePadderProps = HTMLAttributes<HTMLDivElement>;
+type PagePadderProps = React.HTMLAttributes<HTMLDivElement>;
 
 /**
  * Super basic component that just provides common padding to page components.

@@ -2,8 +2,9 @@ import { Typography } from 'antd';
 import classNames from 'classnames';
 import some from 'lodash/some';
 import moment from 'moment';
-import React from 'react';
+import * as React from 'react';
 import ReactCalendar, { CalendarTileProperties } from 'react-calendar';
+import ReactDatePicker from 'react-date-picker';
 
 import { ReservationManager } from '../ReservationManager';
 import { DateRange } from '../types';
@@ -24,9 +25,14 @@ type DateConfirmationProps = {
   reservations: ReservationManager;
 };
 
+type DatePickerProps = {
+  onChange: (d: Date) => void;
+  reservations: ReservationManager;
+  value: Date;
+};
+
 /** ======================== Components ===================================== */
 export const Calendar: React.FC<CalendarProps> = ({ onChange, reservations }) => {
-  const today = moment();
   const tomorrow = moment().add(1, 'day');
 
   return (
@@ -35,7 +41,6 @@ export const Calendar: React.FC<CalendarProps> = ({ onChange, reservations }) =>
         calendarType="US"
         onChange={dates => onChange(dates as [Date, Date])}
         selectRange
-        showNeighboringMonth
         tileContent={
           // The triangles are used to render the first- and second-half of the
           // calendar days. They are used to indicate when a reservation begins
@@ -46,19 +51,12 @@ export const Calendar: React.FC<CalendarProps> = ({ onChange, reservations }) =>
           </>
         }
         tileClassName={getTileClassname}
-        tileDisabled={tileIsDisabled}
+        tileDisabled={makeTileIsDisabledCallback(reservations)}
       />
     </div>
   );
 
   /** ====================== Callbacks ====================================== */
-  function tileIsDisabled (props: CalendarTileProperties) {
-    const isPast = today.isSameOrAfter(props.date, 'day');
-    const isFullyBooked = reservations.isFullyBooked(props.date);
-    const isTomorrow = tomorrow.isSame(props.date, 'day');
-    return isPast || isFullyBooked || (isTomorrow && reservations.starts(tomorrow));
-  }
-
   function getTileClassname (props: CalendarTileProperties) {
     const date = moment(props.date);
     return classNames({
@@ -103,4 +101,29 @@ export const DateConfirmation: React.FC<DateConfirmationProps> = ({ reservations
 
     return dates;
   }
+};
+
+export const DatePicker: React.FC<DatePickerProps> = ({ onChange, reservations, value }) =>
+  <ReactDatePicker
+    calendarIcon={null}
+    calendarType="US"
+    clearIcon={null}
+    onChange={d => onChange(d as Date)}
+    tileDisabled={makeTileIsDisabledCallback(reservations)}
+    value={value}
+  />;
+
+/**
+ * Returns a callback for the calendar's `tileDisabled` prop
+ */
+const makeTileIsDisabledCallback = (reservations: ReservationManager) => {
+  const today = moment();
+  const tomorrow = moment().add(1, 'day');
+
+  return function tileIsDisabled ({ date }: CalendarTileProperties) {
+    const isPast = today.isSameOrAfter(date, 'day');
+    const isFullyBooked = reservations.isFullyBooked(date);
+    const isTomorrow = tomorrow.isSame(date, 'day');
+    return isPast || isFullyBooked || (isTomorrow && reservations.starts(tomorrow));
+  };
 };

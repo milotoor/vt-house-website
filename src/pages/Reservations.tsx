@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import { Col, Row, Typography } from 'antd';
 
 import {
@@ -60,9 +60,9 @@ const RightColumn: React.FC<RightColumnProps> = (props) => {
 
 const Reservations: React.FC = () => {
   const reservations = useReservationManager();
-  const [selectedDates, setSelectedDates] = useState<DateRange>();
+  const [selectedDates, setSelectedDates] = React.useState<DateRange>();
 
-  useEffect(() => {
+  React.useEffect(() => {
     reservations.fetch();
   }, [reservations]);
 
