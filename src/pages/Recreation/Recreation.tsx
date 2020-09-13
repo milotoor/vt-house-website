@@ -2,8 +2,8 @@ import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Card, Col, Row, Tabs } from 'antd';
 import * as routes from '../../routes';
-import activities from './activities';
 import { PagePadder } from '../shared';
+import activities from './activities';
 import { ActivityProps } from './types';
 import './Recreation.less';
 
@@ -56,7 +56,7 @@ const Section: React.FC<SectionProps> = ({ activities }) => {
   );
 };
 
-const Recreation = withRouter(( { history }) => 
+const Recreation = withRouter(({ history }) =>
   <PagePadder className="recreation-page">
     <Tabs defaultActiveKey={getDefaultActiveKey()} onChange={(tabKey) => {
       history.push(routes.recreation[tabKey as recreationSubRouteName])
