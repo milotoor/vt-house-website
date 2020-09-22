@@ -276,12 +276,12 @@ const Admin: React.FC = () => {
 
         {loadState.loaded &&
           <>
-            <Row>
-              <Col span={12}>
+            <Row className="calendar-row">
+              <Col sm={24} lg={12} className="centered-col">
                 <Calendar onChange={setSelectedDates} reservations={reservations} />
               </Col>
 
-              <Col className="new-reservation-form" span={12}>
+              <Col sm={24} lg={12} className="new-reservation-form">
                 {selectedDates
                   ? (
                     <>
