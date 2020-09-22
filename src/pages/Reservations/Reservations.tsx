@@ -10,7 +10,8 @@ import {
   PagePadder,
   ReservationManager,
   useReservationManager
-} from './shared';
+} from '../shared';
+import './Reservations.less';
 
 
 const { Paragraph, Text, Title } = Typography;
@@ -67,13 +68,13 @@ const Reservations: React.FC = () => {
   }, [reservations]);
 
   return (
-    <PagePadder>
+    <PagePadder className="reservations-page">
       <Row>
-        <Col span={12}>
+        <Col md={24} lg={12} className="centered-col">
           <Calendar onChange={setSelectedDates} reservations={reservations} />
         </Col>
 
-        <Col span={12}>
+        <Col md={24} lg={12}>
           <RightColumn reservations={reservations} selectedDates={selectedDates} />
         </Col>
       </Row>

@@ -25,6 +25,7 @@
     "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "on-change": "^2.0.2",
+    "rc-drawer": "^4.1.0",
     "react": "^16.13.1",
     "react-app-rewired": "^2.1.6",
     "react-calendar": "^2.19.2",
