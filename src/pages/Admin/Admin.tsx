@@ -263,7 +263,11 @@ const Admin: React.FC = () => {
       <PagePadder id="admin-page">
         <div className="admin-secret">
           <Form layout="inline" onFinish={loadReservations}>
-            <Form.Item label="Pass code">
+            <Form.Item
+              label="Pass code"
+              validateStatus={loadState.error ? 'error' : ''}
+              help={loadState.error ? 'Invalid pass code' : ''}
+            >
               <Input.Password onChange={e => reservations.setSecret(e.target.value)} />
             </Form.Item>
             <Form.Item>
