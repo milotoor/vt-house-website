@@ -63,8 +63,8 @@ export class App extends React.Component<{}, AppState> {
     const closeDrawer = () => this.setState({ drawerOpen: false });
     return (
       <Router>
-        <Row>
-          {isMobile ? (
+        {isMobile
+          ? (
             <MobileMenu
               handler={
                 <div
@@ -80,18 +80,10 @@ export class App extends React.Component<{}, AppState> {
             >
               <Menu closeDrawer={closeDrawer} />
             </MobileMenu>
-          ) : (
-            <Col xxl={4} xl={5} lg={6} md={6} sm={24} xs={24} className="main-menu">
-              <Affix>
-                <Menu />
-              </Affix>
-            </Col>
-          )}
+          ) : <Menu />
+        }
 
-          <Col xxl={20} xl={19} lg={18} md={18} sm={24} xs={24}>
-            <MainContent />
-          </Col>
-        </Row>
+        <MainContent />
       </Router>
     );
   }
