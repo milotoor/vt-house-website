@@ -19,12 +19,7 @@ import { makeQueryString } from './util';
  */
 export class ReservationManager extends Array<Reservation> {
   private _fetched = false;
-  private _secret: string;
-
-  constructor () {
-    super();
-    this._secret = '';
-  }
+  private _secret = '';
 
   setSecret (secret: string) {
     this._secret = secret;
