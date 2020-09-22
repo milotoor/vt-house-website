@@ -2,8 +2,8 @@ import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Card, Col, Row, Tabs } from 'antd';
 import * as routes from '../../routes';
-import activities from './activities';
 import { PagePadder } from '../shared';
+import activities from './activities';
 import { ActivityProps } from './types';
 import './Recreation.less';
 
@@ -21,7 +21,7 @@ type recreationSubRouteName = 'outings' | 'restaurants' | 'markets' | 'parks';
 /** ======================== Components ==================================== */
 const Activity: React.FC<ActivityProps> = ({ description, href, imgSrc, name }) =>
   <Card
-    style={{ width: 300 }}
+    className="activity-card"
     cover={imgSrc ? <img src={imgSrc} alt={name} /> : null}
     hoverable
     onClick={() => window.open(href, '_blank')}
@@ -29,34 +29,16 @@ const Activity: React.FC<ActivityProps> = ({ description, href, imgSrc, name }) 
     <Meta title={name} description={description} />
   </Card>;
 
-const Section: React.FC<SectionProps> = ({ activities }) => {
-  // Split the activities into rows
-  const activitiesToRender = [...activities];
-  const rows = [];
-  while (activitiesToRender.length) {
-    // Take the first two activities from the list to include in a row
-    const [first, second] = activitiesToRender.splice(0, 2);
-    rows.push(
-      <Row key={rows.length}>
-        <Col span={12}>
-          <Activity {...first} />
-        </Col>
+const Section: React.FC<SectionProps> = ({ activities }) =>
+  <Row>
+    {activities.map(activity =>
+      <Col xs={24} sm={12} className="centered-col" key={activity.name}>
+        <Activity {...activity} />
+      </Col>
+    )}
+  </Row>;
 
-        <Col span={12}>
-          {second ? <Activity {...second} /> : null }
-        </Col>
-      </Row>
-    )
-  }
-
-  return (
-    <div>
-      {rows}
-    </div>
-  );
-};
-
-const Recreation = withRouter(( { history }) => 
+const Recreation = withRouter(({ history }) =>
   <PagePadder className="recreation-page">
     <Tabs defaultActiveKey={getDefaultActiveKey()} onChange={(tabKey) => {
       history.push(routes.recreation[tabKey as recreationSubRouteName])

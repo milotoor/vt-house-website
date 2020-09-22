@@ -1,9 +1,15 @@
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Menu as AntMenu } from 'antd';
 import * as routes from './routes';
 
+/** ======================== Types ========================================= */
 type TabKeyMap = { [key: string]: number };
+type MenuProps = {
+  closeDrawer?: () => void;
+};
+
+/** ======================== Constants ===================================== */
 const tabKeyByRoute: TabKeyMap = {
   [routes.home]: 1,
   [routes.exterior]: 2,
@@ -31,36 +37,34 @@ const tabAtPageLoad = (() => {
   return tabKeyByRoute[routes.home];
 })();
 
-const Menu = withRouter(({ history }) =>
-  <AntMenu theme="dark" defaultSelectedKeys={[tabAtPageLoad.toString()]} mode="inline">
-    <AntMenu.Item key="1" onClick={() => history.push(routes.home)}>
-      Home
-    </AntMenu.Item>
+/** ======================== Components ==================================== */
+const Menu: React.FC<MenuProps> = ({ closeDrawer }) => {
+  const history = useHistory();
+  return (
+    <AntMenu
+      className="nav-menu"
+      defaultSelectedKeys={[tabAtPageLoad.toString()]}
+      mode="inline"
+      theme="dark"
+    >
+      <AntMenu.Item onClick={goTo(routes.home)}>Home</AntMenu.Item>
+      <AntMenu.Item key="2" onClick={goTo(routes.exterior)}>Exterior</AntMenu.Item>
+      <AntMenu.Item key="3" onClick={goTo(routes.interior.first_floor)}>Interior</AntMenu.Item>
+      <AntMenu.Item key="4" onClick={goTo(routes.accommodations)}>Accommodations</AntMenu.Item>
+      <AntMenu.Item key="5" onClick={goTo(routes.amenities)}>Amenities</AntMenu.Item>
+      <AntMenu.Item key="6" onClick={goTo(routes.recreation.outings)}>Recreation</AntMenu.Item>
+      <AntMenu.Item key="7" onClick={goTo(routes.reservations)}>Reservations</AntMenu.Item>
+    </AntMenu>
+  );
   
-    <AntMenu.Item key="2" onClick={() => history.push(routes.exterior)}>
-      Exterior
-    </AntMenu.Item>
-
-    <AntMenu.Item key="3" onClick={() => history.push(routes.interior.first_floor)}>
-      Interior
-    </AntMenu.Item>
-
-    <AntMenu.Item key="4" onClick={() => history.push(routes.accommodations)}>
-      Accommodations
-    </AntMenu.Item>
-
-    <AntMenu.Item key="5" onClick={() => history.push(routes.amenities)}>
-      Amenities
-    </AntMenu.Item>
-
-    <AntMenu.Item key="6" onClick={() => history.push(routes.recreation.outings)}>
-      Recreation
-    </AntMenu.Item>
-
-    <AntMenu.Item key="7" onClick={() => history.push(routes.reservations)}>
-      Reservations
-    </AntMenu.Item>
-  </AntMenu>
-);
+  function goTo (page: string) {
+    return () => {
+      if (closeDrawer) {
+        closeDrawer();
+      }
+      history.push(page);
+    };
+  }
+};
 
 export default Menu;

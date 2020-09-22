@@ -51,8 +51,6 @@ export function makeQueryString (params?: QueryParams): string {
         return [key, value];
       }
 
-      // Print a warning and return `null`. The `null` value will be removed by `omitFalsey`
-      console.warn(`Query parameter "${key}" received invalid value: ${value}`);
       return null;
     }));
 

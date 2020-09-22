@@ -7,7 +7,6 @@ import * as React from 'react';
 
 import {
   Calendar,
-  DateConfirmation,
   DatePicker,
   DateRange,
   formatDateRange,
@@ -264,7 +263,11 @@ const Admin: React.FC = () => {
       <PagePadder id="admin-page">
         <div className="admin-secret">
           <Form layout="inline" onFinish={loadReservations}>
-            <Form.Item label="Pass code">
+            <Form.Item
+              label="Pass code"
+              validateStatus={loadState.error ? 'error' : ''}
+              help={loadState.error ? 'Invalid pass code' : ''}
+            >
               <Input.Password onChange={e => reservations.setSecret(e.target.value)} />
             </Form.Item>
             <Form.Item>
@@ -277,12 +280,12 @@ const Admin: React.FC = () => {
 
         {loadState.loaded &&
           <>
-            <Row>
-              <Col span={12}>
+            <Row className="calendar-row">
+              <Col sm={24} lg={12} className="centered-col">
                 <Calendar onChange={setSelectedDates} reservations={reservations} />
               </Col>
 
-              <Col className="new-reservation-form" span={12}>
+              <Col sm={24} lg={12} className="new-reservation-form">
                 {selectedDates
                   ? (
                     <>

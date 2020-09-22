@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-import { Layout } from 'antd';
+import MobileMenu from 'rc-drawer';
+import 'rc-drawer/assets/index.css'
 
 import Menu from './Menu';
 import * as Pages from './pages';
@@ -8,55 +9,85 @@ import * as routes from './routes';
 import './App.less';
 
 
-const { Content, Sider } = Layout;
+/** ======================== Types ========================================= */
+type AppState = {
+  drawerOpen: boolean;
+  isMobile: boolean;
+};
 
-const App: React.FC = () =>
-  <Router>
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'fixed',
-          left: 0,
-        }}
-      >
-        <Menu />
-      </Sider>
+/** ======================== Constants ===================================== */
+const RESPONSIVE_MOBILE = 768;
 
-      <Layout style={{ marginLeft: 200 }}>
-        <Content style={{ margin: '0 16px', width: 850 }}>
-          <div id="content">
-            <Switch>
-              <Route path={routes.exterior}>
-                <Pages.Exterior />
-              </Route>
-              <Route path={routes.interior.base}>
-                <Pages.Interior />
-              </Route>
-              <Route path={routes.accommodations}>
-                <Pages.Accommodations />
-              </Route>
-              <Route path={routes.amenities}>
-                <Pages.Amenities />
-              </Route>
-              <Route path={routes.recreation.base}>
-                <Pages.Recreation />
-              </Route>
-              <Route path={routes.reservations}>
-                <Pages.Reservations />
-              </Route>
-              <Route path={routes.admin}>
-                <Pages.Admin />
-              </Route>
-              <Route path={routes.home}>
-                <Pages.Home />
-              </Route>
-            </Switch>
-          </div>
-        </Content>
-      </Layout>
-    </Layout>
-  </Router>;;
+/** ======================== Components ==================================== */
+const MainContent: React.FC = () =>
+  <div id="content">
+    <Switch>
+      <Route path={routes.exterior} component={Pages.Exterior} />
+      <Route path={routes.interior.base} component={Pages.Interior} />
+      <Route path={routes.accommodations} component={Pages.Accommodations} />
+      <Route path={routes.amenities} component={Pages.Amenities} />
+      <Route path={routes.recreation.base} component={Pages.Recreation} />
+      <Route path={routes.reservations} component={Pages.Reservations} />
+      <Route path={routes.admin} component={Pages.Admin} />
+      <Route path={routes.home} component={Pages.Home} />
+    </Switch>
+  </div>;
 
-export default App;
+export class App extends React.Component<{}, AppState> {
+  state = {
+    drawerOpen: false,
+    isMobile: checkIfMobile()
+  };
+
+  componentDidMount () {
+    window.addEventListener('resize', this.updateMobileMode);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateMobileMode);
+  }
+
+  updateMobileMode = () => {
+    const { isMobile } = this.state;
+    const newIsMobile = checkIfMobile();
+    if (isMobile !== newIsMobile) {
+      this.setState({
+        isMobile: newIsMobile,
+      });
+    }
+  };
+
+  render () {
+    const { drawerOpen, isMobile } = this.state;
+    const closeDrawer = () => this.setState({ drawerOpen: false });
+    return (
+      <Router>
+        {isMobile
+          ? (
+            <MobileMenu
+              handler={
+                <div
+                  onClick={() => this.setState({ drawerOpen: !drawerOpen })}
+                  className="drawer-handle"
+                >
+                  <i className="drawer-handle-icon" />
+                </div>
+              }
+              onClose={closeDrawer}
+              open={drawerOpen}
+              wrapperClassName="drawer-wrapper"
+            >
+              <Menu closeDrawer={closeDrawer} />
+            </MobileMenu>
+          ) : <Menu />
+        }
+
+        <MainContent />
+      </Router>
+    );
+  }
+}
+
+function checkIfMobile () {
+  return window.innerWidth < RESPONSIVE_MOBILE;
+}
