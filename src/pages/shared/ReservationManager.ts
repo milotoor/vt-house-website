@@ -19,7 +19,12 @@ import { makeQueryString } from './util';
  */
 export class ReservationManager extends Array<Reservation> {
   private _fetched = false;
-  private _secret?: string;
+  private _secret: string;
+
+  constructor () {
+    super();
+    this._secret = '';
+  }
 
   setSecret (secret: string) {
     this._secret = secret;
@@ -48,8 +53,8 @@ export class ReservationManager extends Array<Reservation> {
       // parsed reservations
       this.splice(0, this.length, ...rawReservations.map(parseReservation));
     } catch (e) {
-      console.error(e);
       this._fetched = false;
+      throw e;
     }
   }
 
