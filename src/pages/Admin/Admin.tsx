@@ -252,7 +252,7 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({ reservations, t
 const Admin: React.FC = () => {
   const [loadState, setLoadState] = React.useState({ error: false, loaded: false, loading: false });
   const [selectedDates, setSelectedDates] = React.useState<DateRange>();
-  const reservations = useReservationManager();
+  const reservations = useReservationManager(true);
   const formRef = React.useRef<FormInstance>(null);
 
   const today = moment();

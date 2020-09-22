@@ -60,7 +60,7 @@ const RightColumn: React.FC<RightColumnProps> = (props) => {
 };
 
 const Reservations: React.FC = () => {
-  const reservations = useReservationManager();
+  const reservations = useReservationManager(false);
   const [selectedDates, setSelectedDates] = React.useState<DateRange>();
 
   React.useEffect(() => {

@@ -19,7 +19,12 @@ import { makeQueryString } from './util';
  */
 export class ReservationManager extends Array<Reservation> {
   private _fetched = false;
-  private _secret = '';
+  private _secret?: string;
+
+  constructor (secret?: string) {
+    super();
+    this._secret = secret;
+  }
 
   setSecret (secret: string) {
     this._secret = secret;
@@ -189,9 +194,9 @@ function getLambdaURI (queryParams?: QueryParams) {
  *
  * without explicitly updating state.
  */
-export function useReservationManager () {
+export function useReservationManager (useSecret: boolean) {
   const forceRerender = useForceRerender();
-  const [reservations,] = React.useState(new ReservationManager());
+  const [reservations,] = React.useState(new ReservationManager(useSecret ? '' : undefined));
 
   // This leverages the Proxy API and monitors the reservation manager.
   // Whenever the reservations change (i.e. a reservation is added/removed
